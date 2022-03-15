@@ -19,6 +19,7 @@ using Services.Uid;
 using Signals;
 using UnityEngine;
 using Zenject;
+using Object = System.Object;
 
 namespace ECS.Game.Systems
 {
@@ -42,12 +43,17 @@ namespace ECS.Game.Systems
 
         private void CreatePotal()
         {
-            var entity = _world.NewEntity();
-            entity.Get<PortalComponent>();
-            entity.Get<PrefabComponent>().Value = "Portal";
-            entity.Get<EventAddComponent<PrefabComponent>>();
-            entity.Get<EventAddComponent<PortalComponent>>();
-            //for another portal create extensonSystemfor ingame entity
+            var portalOnScene = UnityEngine.Object.FindObjectsOfType<PortalView>(); 
+            foreach (var view in portalOnScene)
+            {
+                var entity = _world.NewEntity();
+                //<EventAddComponent<PortalComponent>>???
+                entity.Get<PortalComponent>().color = view.color;//из вьюшки;
+                entity.Get<LinkComponent>().View = view;
+                view.Link(entity);
+                
+                //find all set by gamedis portal
+            }
         }
 
         private void CreatePipes()

@@ -15,9 +15,15 @@ namespace ECS.Game.Systems
         protected override EcsFilter<EventAddComponent<PrefabComponent>> ReactiveFilter { get; } //рефлексия 
         protected override void Execute(EcsEntity entity)
         {
+            //after trohw here entity
+            //мы оправляем entity в метод Spawn и получаем вьюшку ( родитель всех интерфейсов ) 
+            
             var linkable = _spawnService.Spawn(entity);
-            linkable?.Link(entity);
-            entity.Get<LinkComponent>().View = linkable;
+            linkable?.Link(entity); // после отправления в линк наша вьюшка знает о сущности
+            entity.Get<LinkComponent>().View = linkable; // а здесь сущность уже знает о вьюшке
+            
+            //таким образом Ilinkeble нам нужен для того что бы вьюшка узнала о сущности
+            //а LinkComponent - что бы сущность имея компонент Link.comp.View (Ilinkable) узнала о вьюшке 
         }
     }
 }

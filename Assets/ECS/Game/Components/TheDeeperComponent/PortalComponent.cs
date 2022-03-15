@@ -3,9 +3,10 @@ using UnityEngine;
 
 namespace ECS.Game.Components.TheDeeperComponent
 {
-    public struct PortalComponent 
+    public struct PortalComponent
     {
-        enum PortalColor
+        public PortalColor color;
+        public enum PortalColor
         {
             Red,
             Blue,

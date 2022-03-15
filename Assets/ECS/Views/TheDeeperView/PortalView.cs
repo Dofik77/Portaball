@@ -1,20 +1,22 @@
 ﻿using System;
+using ECS.Game.Components.TheDeeperComponent;
 using Ecs.Views.Linkable.Impl;
 using UnityEngine;
+using Object = System.Object;
 
 namespace ECS.Views.Impls
 {
     public class PortalView : LinkableView
     {
+        [SerializeField] public PortalComponent.PortalColor color;
         public event Action<SphereCharacterView> OnSphereCollision;
-        private void OnCollisionEnter(Collision collision)
+
+        private void OnTriggerEnter(Collider other)
         {
-            if (collision.gameObject.TryGetComponent(out SphereCharacterView characterView))
+            if (other.gameObject.TryGetComponent(out SphereCharacterView characterView))
             {
                 OnSphereCollision?.Invoke(characterView);
-            } 
-            // relacete in System
-            //save velocity and change rotate 
+            }
         }
     }
 }

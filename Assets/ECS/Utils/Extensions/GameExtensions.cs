@@ -3,9 +3,11 @@ using ECS.Core.Utils.ReactiveSystem.Components;
 using ECS.Game.Components;
 using ECS.Game.Components.Flags;
 using ECS.Game.Components.TheDeeperComponent;
+using ECS.Views.Impls;
 using Leopotam.Ecs;
 using Services.Uid;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace ECS.Utils.Extensions
 {
@@ -27,12 +29,11 @@ namespace ECS.Utils.Extensions
         {
             var entity = world.NewEntity();
             entity.Get<PortalComponent>();
-            entity.Get<RotationComponent>();
             entity.Get<PrefabComponent>().Value = "Portal";
+            entity.Get<ActivePortalComponent>();
+            entity.Get<EventAddComponent<PrefabComponent>>();
+            //Color???
             return entity;
         }
-        
-        //portal 
-        //relocte camera and etc?
     }
 }
