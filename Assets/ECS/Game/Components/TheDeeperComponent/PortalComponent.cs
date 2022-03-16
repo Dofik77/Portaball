@@ -11,7 +11,8 @@ namespace ECS.Game.Components.TheDeeperComponent
             Red,
             Blue,
             Yellow,
-            Dark
+            Dark,
+            Green
         }
     }
 }

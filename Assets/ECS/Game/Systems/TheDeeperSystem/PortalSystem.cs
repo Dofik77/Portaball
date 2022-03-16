@@ -17,9 +17,9 @@ namespace ECS.Game.Systems
     {
         [Inject] private readonly GetPointFromScene _getPointFromScene;
         protected override EcsFilter <EventAddComponent<PortalComponent>> ReactiveFilter { get; }
-        private EcsFilter<PortalComponent> Portals;
-        private EcsFilter<SphereCharacterComponent, LinkComponent> Sphere;
-        private EcsFilter<ActivePortalComponent> ActiveComponent;
+        private EcsFilter<PortalComponent> _portals;
+        private EcsFilter<SphereCharacterComponent, LinkComponent> _sphere;
+        private EcsFilter<ActivePortalComponent> _activeComponent;
         
         protected override void Execute(EcsEntity entity)
         {
@@ -29,9 +29,9 @@ namespace ECS.Game.Systems
         
         void FindAnotherPortal(Uid id, PortalComponent.PortalColor enumColor)
         {
-            foreach (var i in Portals)
+            foreach (var i in _portals)
             {
-                var exitPortalEntity = Portals.GetEntity(i);
+                var exitPortalEntity = _portals.GetEntity(i);
                 var exitPortalColor = exitPortalEntity.Get<PortalComponent>().color;
 
                 if (enumColor == exitPortalColor 
@@ -44,9 +44,9 @@ namespace ECS.Game.Systems
 
         private void TeleportSphere(EcsEntity exitPortalEntity)
         {
-            foreach (var i in Sphere)
+            foreach (var i in _sphere)
             {
-                var sphereView = Sphere.Get2(i).View as SphereCharacterView;
+                var sphereView = _sphere.Get2(i).View as SphereCharacterView;
                 var exitPortalView = exitPortalEntity.Get<LinkComponent>().View;
 
                 if (sphereView != null)

@@ -48,7 +48,7 @@ namespace ECS.Game.Systems
             foreach (var view in portalOnScene)
             {
                 var entity = _world.NewEntity();
-                entity.Get<PortalComponent>().color = view.color;//из вьюшки;
+                entity.Get<PortalComponent>().color = view.color;//из вьюшки
                 entity.Get<EventAddComponent<PortalComponent>>();
                 entity.Get<UIdComponent>().Value = UidGenerator.Next();
                 entity.Get<LinkComponent>().View = view;
@@ -72,7 +72,10 @@ namespace ECS.Game.Systems
             entity.Get<PrefabComponent>().Value = "MainCamera";
             entity.Get<EventAddComponent<PrefabComponent>>();
             entity.Get<EventAddComponent<CameraComponent>>();
+            
             //if have PrefabComponent, we havto Get EventAddComponent<PrefabComp>
+            //maybe relacate in Extension and just find camera on scee and get some
+            //component
         }
 
         private bool LoadGame()
