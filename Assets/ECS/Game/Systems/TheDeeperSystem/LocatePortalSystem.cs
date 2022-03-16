@@ -26,7 +26,7 @@ namespace ECS.Game.Systems
         {
             if (_countOfPortal < 1)
             {
-                _portal = _world.CreatePortal();
+                //_portal = _world.CreatePortal();
                 _portalView = (PortalView) _portal.Get<LinkComponent>().View;
                 _countOfPortal++;
             }

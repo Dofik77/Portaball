@@ -1,11 +1,13 @@
 ﻿using ECS.Core.Utils.ReactiveSystem;
 using ECS.Core.Utils.ReactiveSystem.Components;
 using ECS.Game.Components;
+using ECS.Game.Components.Flags;
 using ECS.Game.Components.TheDeeperComponent;
 using ECS.Views.Impls;
 using Game.Utils.MonoBehUtils;
 using Leopotam.Ecs;
 using ModestTree;
+using PdUtils;
 using UnityEngine;
 using Zenject;
 
@@ -13,33 +15,57 @@ namespace ECS.Game.Systems
 {
     public class PortalSystem : ReactiveSystem<EventAddComponent<PortalComponent>>
     {
-        protected override EcsFilter<EventAddComponent<PortalComponent>> ReactiveFilter { get; }
-        //другой портал найдем по фильтру ActiveComponent[] 
         [Inject] private readonly GetPointFromScene _getPointFromScene;
+        protected override EcsFilter <EventAddComponent<PortalComponent>> ReactiveFilter { get; }
+        private EcsFilter<PortalComponent> Portals;
+        private EcsFilter<SphereCharacterComponent, LinkComponent> Sphere;
+        private EcsFilter<ActivePortalComponent> ActiveComponent;
+        
         protected override void Execute(EcsEntity entity)
         {
-            var firstPoint = _getPointFromScene.GetPoint("FirstPortal");
-            entity.Get<LinkComponent>().View.Transform.position = firstPoint.position;
-
             PortalView portalView = entity.Get<LinkComponent>().View as PortalView;
-            PortalComponent portalComponent = entity.Get<PortalComponent>(); //how transfer color
-            portalView.OnSphereCollision += TeleportSphere;
-            
-
-            void TeleportSphere(SphereCharacterView characterView)
+            portalView.OnSphereTrigger += FindAnotherPortal;
+        }
+        
+        void FindAnotherPortal(Uid id, PortalComponent.PortalColor enumColor)
+        {
+            foreach (var i in Portals)
             {
-                //находить портал с таким же цветом 
-                var portal = _getPointFromScene.GetPoint("SecondPortal");
-                var sphereVelocity = characterView.rigidbody.velocity;
-                
-                var transform = characterView.rigidbody.transform;
-                transform.position =
-                    portal.position;
-                transform.rotation = 
-                    portal.rotation;
-                
-                characterView.rigidbody.velocity = 
-                    new Vector3(sphereVelocity.x, sphereVelocity.y, sphereVelocity.z);
+                var exitPortalEntity = Portals.GetEntity(i);
+                var exitPortalColor = exitPortalEntity.Get<PortalComponent>().color;
+
+                if (enumColor == exitPortalColor 
+                    && id != exitPortalEntity.Get<UIdComponent>().Value)
+                {
+                    TeleportSphere(exitPortalEntity);
+                } 
+            }
+        }
+
+        private void TeleportSphere(EcsEntity exitPortalEntity)
+        {
+            foreach (var i in Sphere)
+            {
+                var sphereView = Sphere.Get2(i).View as SphereCharacterView;
+                var exitPortalView = exitPortalEntity.Get<LinkComponent>().View;
+
+                if (sphereView != null)
+                {
+                    var sphereVelocity = sphereView.rigidbody.velocity;
+
+                    var sphereTransform = sphereView.rigidbody.transform;
+                    var exitPortalTransform = exitPortalView.Transform;
+                    var exitPortalPoint = exitPortalTransform.GetChild(0);
+
+                    sphereTransform.position =
+                        exitPortalPoint.position;
+
+                    sphereTransform.rotation = 
+                        exitPortalTransform.rotation;
+
+                    sphereView.rigidbody.velocity =
+                        sphereVelocity;
+                }
             }
         }
     }

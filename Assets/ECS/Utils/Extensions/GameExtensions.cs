@@ -29,9 +29,14 @@ namespace ECS.Utils.Extensions
         {
             var entity = world.NewEntity();
             entity.Get<PortalComponent>();
+            entity.Get<EventAddComponent<PortalComponent>>();
+            
             entity.Get<PrefabComponent>().Value = "Portal";
-            entity.Get<ActivePortalComponent>();
             entity.Get<EventAddComponent<PrefabComponent>>();
+            
+            entity.Get<ActivePortalComponent>();
+            entity.Get<UIdComponent>().Value = UidGenerator.Next();
+            
             //Color???
             return entity;
         }

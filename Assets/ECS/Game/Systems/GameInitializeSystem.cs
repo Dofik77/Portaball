@@ -39,6 +39,7 @@ namespace ECS.Game.Systems
             CreatePotal();
             CreatePipes();
             CreateTimer();
+            //UIIdComp for all!!!
         }
 
         private void CreatePotal()
@@ -47,8 +48,9 @@ namespace ECS.Game.Systems
             foreach (var view in portalOnScene)
             {
                 var entity = _world.NewEntity();
-                //<EventAddComponent<PortalComponent>>???
                 entity.Get<PortalComponent>().color = view.color;//из вьюшки;
+                entity.Get<EventAddComponent<PortalComponent>>();
+                entity.Get<UIdComponent>().Value = UidGenerator.Next();
                 entity.Get<LinkComponent>().View = view;
                 view.Link(entity);
                 
@@ -70,6 +72,7 @@ namespace ECS.Game.Systems
             entity.Get<PrefabComponent>().Value = "MainCamera";
             entity.Get<EventAddComponent<PrefabComponent>>();
             entity.Get<EventAddComponent<CameraComponent>>();
+            //if have PrefabComponent, we havto Get EventAddComponent<PrefabComp>
         }
 
         private bool LoadGame()
@@ -108,10 +111,10 @@ namespace ECS.Game.Systems
         {
             var entity = _world.NewEntity();
             var point = _getPointFromScene.GetPoint("Player");
-            entity.Get<PlayerComponent>();
+            entity.Get<SphereCharacterComponent>();
             entity.Get<PrefabComponent>().Value = "Sphere";
             entity.Get<EventAddComponent<PrefabComponent>>();
-            entity.Get<EventAddComponent<PlayerComponent>>();
+            entity.Get<EventAddComponent<SphereCharacterComponent>>();
         }
     }
 }

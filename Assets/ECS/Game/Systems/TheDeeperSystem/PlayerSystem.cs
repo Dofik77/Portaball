@@ -8,9 +8,9 @@ using Zenject;
 
 namespace ECS.Game.Systems
 {
-    public class PlayerSystem : ReactiveSystem<EventAddComponent<PlayerComponent>>
+    public class PlayerSystem : ReactiveSystem<EventAddComponent<SphereCharacterComponent>>
     {
-        protected override EcsFilter<EventAddComponent<PlayerComponent>> ReactiveFilter { get; }
+        protected override EcsFilter<EventAddComponent<SphereCharacterComponent>> ReactiveFilter { get; }
         [Inject] private readonly GetPointFromScene _getPointFromScene;
         protected override void Execute(EcsEntity entity)
         {

@@ -30,6 +30,7 @@ namespace ECS.Installers
             Container.BindInterfacesAndSelfTo<InstantiateSystem>().AsSingle();
             Container.BindInterfacesAndSelfTo<PositionRotationTranslateSystem>().AsSingle();
             Container.BindInterfacesAndSelfTo<GameTimerSystem>().AsSingle();
+            
             //game process system
             Container.BindInterfacesAndSelfTo<CameraLocateSystem>().AsSingle();
             Container.BindInterfacesAndSelfTo<PlayerSystem>().AsSingle();
@@ -40,12 +41,13 @@ namespace ECS.Installers
             Container.BindInterfacesAndSelfTo<MoveRotateToTargetSystem>().AsSingle();
             Container.BindInterfacesAndSelfTo<RemapOnAddSystem>().AsSingle();
             Container.BindInterfacesAndSelfTo<PlayerModelMoveSideSystem>().AsSingle();
-            //Container.BindInterfacesAndSelfTo<AddImpactToPlayerSystem>().AsSingle();
+            Container.BindInterfacesAndSelfTo<AddImpactToPlayerSystem>().AsSingle();
+            
             //tech system
             Container.BindInterfacesAndSelfTo<GamePauseSystem>().AsSingle();
             Container.BindInterfacesAndSelfTo<SaveGameSystem>().AsSingle();
-            //Container.BindInterfacesAndSelfTo<StartGameSystem>().AsSingle();
-            //Container.BindInterfacesAndSelfTo<EndGameSystem>().AsSingle();
+            Container.BindInterfacesAndSelfTo<StartGameSystem>().AsSingle();
+            Container.BindInterfacesAndSelfTo<EndGameSystem>().AsSingle();
             Container.BindInterfacesAndSelfTo<GameStageSystem>().AsSingle();        //always must been last
             Container.BindInterfacesAndSelfTo<CleanUpSystem>().AsSingle();          //must been latest than last!
         }       
