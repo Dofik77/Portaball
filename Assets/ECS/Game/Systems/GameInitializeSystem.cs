@@ -77,7 +77,8 @@ namespace ECS.Game.Systems
             entity.Get<PrefabComponent>().Value = "MainCamera";
             entity.Get<EventAddComponent<PrefabComponent>>();
             entity.Get<EventAddComponent<CameraComponent>>();
-            
+            entity.Get<ActiveCameraComponent>();
+
             //if have PrefabComponent, we havto Get EventAddComponent<PrefabComp>
             //maybe relacate in Extension and just find camera on scee and get some
             //component

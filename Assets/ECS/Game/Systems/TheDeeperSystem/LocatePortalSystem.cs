@@ -16,7 +16,7 @@ namespace ECS.Game.Systems
         private readonly EcsFilter<EventInputDownComponent> _eventInputDownComponent; // Down
         private readonly EcsFilter<EventInputUpComponent> _eventInputUpComponent; // Up
         private readonly EcsFilter<PortalComponent, LinkComponent, ActivePortalComponent> _activePortal;
-        private readonly EcsFilter<CameraComponent, LinkComponent> _filterCamera;
+        private readonly EcsFilter<CameraComponent, LinkComponent, ActiveCameraComponent> _filterCamera;
         
         private readonly EcsWorld _world;
         private EcsEntity _portal;
@@ -35,29 +35,31 @@ namespace ECS.Game.Systems
             foreach (var i in _eventInputHoldAndDragComponent)
             {
                 // else our portal don't decected 
-                //because portal not link ( i don't know why ) 
+                //because portal not link ( i don't know why ) \
+                
                 foreach (var activePortal in _activePortal)
                 {
                     var inputPos = _eventInputHoldAndDragComponent.Get1(i).Down;
-                    Debug.Log(inputPos.x + "+" + inputPos.y);
                     _portalView = (PortalView) _activePortal.Get2(activePortal).View;
-                    
+
                     if (TryGetTouchPointInWorldSpace(out Vector3 locatePoint, inputPos))
                     {
                         var position = _portalView.transform.position;
-                        position = new Vector3(locatePoint.x, locatePoint.y);
+                        position = new Vector3(locatePoint.x, locatePoint.y, locatePoint.z);
+                        
                         _portalView.transform.position = position;
                     }
+                    _eventInputHoldAndDragComponent.GetEntity(i).Del<EventInputHoldAndDragComponent>();
                 }
-               
+                _eventInputHoldAndDragComponent.GetEntity(i).Del<EventInputHoldAndDragComponent>();
             }
         }
         
         public bool TryGetTouchPointInWorldSpace(out Vector3 locatePoint, Vector2 inputPos)
         {
-            var actualCamera = GetCameraFromFilter();   
+            var actualCamera = GetCameraFromFilter();
             var ray = actualCamera.ScreenPointToRay(inputPos);
-            var hasHit = Physics.Raycast(ray, out var raycastHit);
+            var hasHit = Physics.Raycast(ray, out var raycastHit, 1000f);
             locatePoint = raycastHit.point;
             Debug.DrawRay(actualCamera.transform.position, locatePoint, Color.red);
             
@@ -69,6 +71,7 @@ namespace ECS.Game.Systems
             return true;
             //check current color of wall
             //можно ли ставить портал с помощью тегов
+            // or by trining wall.get.view.color == portal.color
         }
 
         public Camera GetCameraFromFilter()

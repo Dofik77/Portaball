@@ -18,7 +18,7 @@ namespace ECS.Game.Systems.GameCycle
         private readonly EcsFilter<PointerDownComponent> _pointerDown;
         private readonly EcsFilter<PointerUpComponent> _pointerUp;
         private readonly EcsFilter<PointerDragComponent> _pointerDrag;
-        private readonly EcsFilter<CameraComponent, LinkComponent> _cameraF;
+        private readonly EcsFilter<CameraComponent, LinkComponent, ActiveCameraComponent> _cameraF;
 #pragma warning restore 649
         private CameraView _cameraView;
         private Camera _camera;
