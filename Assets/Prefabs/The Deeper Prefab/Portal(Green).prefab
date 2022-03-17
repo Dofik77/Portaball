@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3741344694135265893}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: ExitPoint
   m_TagString: Untagged
   m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
@@ -43,7 +43,7 @@ GameObject:
   - component: {fileID: 4209296134363726970}
   - component: {fileID: 1028179063893131078}
   - component: {fileID: 8928790957981129466}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Portal(Green)
   m_TagString: Untagged
   m_Icon: {fileID: 0}

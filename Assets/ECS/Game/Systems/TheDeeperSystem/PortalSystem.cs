@@ -62,6 +62,8 @@ namespace ECS.Game.Systems
 
                     sphereTransform.rotation = 
                         exitPortalTransform.rotation;
+                    //sphere.engel - portal.system + portal2.system
+                    //do letter
 
                     sphereView.rigidbody.velocity =
                         sphereVelocity;

@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4286619666375992400}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: PortalPoint
   m_TagString: Untagged
   m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
@@ -43,7 +43,7 @@ GameObject:
   - component: {fileID: 3673987614418811471}
   - component: {fileID: 491490100675674483}
   - component: {fileID: 8322578291858711759}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Portal(Red)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
