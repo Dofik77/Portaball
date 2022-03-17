@@ -31,6 +31,7 @@ namespace ECS.Game.Systems
                 _portal.Get<ActivePortalComponent>();
                 _countOfPortal++;
                 //в зависимости от кол-во стен n = кол-во n 
+                //перенести в цикл ( или отдельный метод ) - портал должен создаваться после нажатия на экран,а не до
             }
 
             foreach (var i in _eventInputDownComponent)
@@ -45,7 +46,7 @@ namespace ECS.Game.Systems
 
                     if (TryGetTouchPointInWorldSpace(out Vector3 locatePoint, inputPos))
                     {
-                        var newPosition = new Vector3(locatePoint.x, locatePoint.y, locatePoint.z + 1f);
+                        var newPosition = new Vector3(locatePoint.x, locatePoint.y, locatePoint.z + 0.5f);
                         _portalView.transform.position = newPosition;
                     }
                     _eventInputDownComponent.GetEntity(i).Del<EventInputDownComponent>();
@@ -105,4 +106,6 @@ namespace ECS.Game.Systems
         //начал водить -> меняется rotaion
         //тык в другое место -> новый телепорт и так далее
     }
+
+    
 }

@@ -17,7 +17,7 @@ MonoBehaviour:
     GameObject: {fileID: 2181769509312897065, guid: 40668d4469e9b774397e05935f8264a1, type: 3}
   - Name: Player
     GameObject: {fileID: 959035790913744268, guid: 1f557a70aec48a241b2d5144cb9d8e36, type: 3}
-  - Name: Sphere
-    GameObject: {fileID: 6162902480728402740, guid: 8f9bd43799b826a4b8582bb1b393a241, type: 3}
+  - Name: Character
+    GameObject: {fileID: 8170496155426976289, guid: e40f3c0f89422234cbb50c2e462b0861, type: 3}
   - Name: Portal
     GameObject: {fileID: 7149559285786118066, guid: 8ff46b03ed31705419aef1b7384e3698, type: 3}

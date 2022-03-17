@@ -121,7 +121,7 @@ namespace ECS.Game.Systems
             var entity = _world.NewEntity();
             var point = _getPointFromScene.GetPoint("Player");
             entity.Get<SphereCharacterComponent>();
-            entity.Get<PrefabComponent>().Value = "Sphere";
+            entity.Get<PrefabComponent>().Value = "Character";
             entity.Get<EventAddComponent<PrefabComponent>>();
             entity.Get<EventAddComponent<SphereCharacterComponent>>();
         }
