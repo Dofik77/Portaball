@@ -53,16 +53,21 @@ namespace ECS.Game.Systems
                 entity.Get<UIdComponent>().Value = UidGenerator.Next();
                 entity.Get<LinkComponent>().View = view;
                 view.Link(entity);
-                
+                //обракидываются ли сюда те порталы, что мы создаем руками? 
                 //find all set by gamedis portal
             }
         }
 
         private void CreatePipes()
         {
-            var entity = _world.NewEntity();
-            entity.Get<PipeComponent>();
-            entity.Get<EventAddComponent<PipeComponent>>();
+            var pipeOnScene = UnityEngine.Object.FindObjectsOfType<PipeView>(); 
+            foreach (var view in pipeOnScene)
+            {
+                var entity = _world.NewEntity();
+                entity.Get<PipeComponent>();
+                entity.Get<EventAddComponent<PipeComponent>>();
+                entity.Get<LinkComponent>().View = view;
+            }
         }
 
         private void CreateCamera()

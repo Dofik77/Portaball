@@ -11,11 +11,14 @@ namespace ECS.Game.Systems
     public class PlayerSystem : ReactiveSystem<EventAddComponent<SphereCharacterComponent>>
     {
         protected override EcsFilter<EventAddComponent<SphereCharacterComponent>> ReactiveFilter { get; }
+        //filtr for tap on pipe
         [Inject] private readonly GetPointFromScene _getPointFromScene;
         protected override void Execute(EcsEntity entity)
         {
             var point = _getPointFromScene.GetPoint("Player");
             entity.Get<LinkComponent>().View.Transform.position = point.position;
+            
+            
         }
     }
 }

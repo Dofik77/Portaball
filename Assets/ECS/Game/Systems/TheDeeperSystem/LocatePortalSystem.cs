@@ -15,7 +15,7 @@ namespace ECS.Game.Systems
         private readonly EcsFilter<EventInputHoldAndDragComponent> _eventInputHoldAndDragComponent; // Press
         private readonly EcsFilter<EventInputDownComponent> _eventInputDownComponent; // Down
         private readonly EcsFilter<EventInputUpComponent> _eventInputUpComponent; // Up
-        private readonly EcsFilter<ActivePortalComponent> _activePortal;
+        private readonly EcsFilter<PortalComponent, LinkComponent, ActivePortalComponent> _activePortal;
         private readonly EcsFilter<CameraComponent, LinkComponent> _filterCamera;
         
         private readonly EcsWorld _world;
@@ -28,19 +28,28 @@ namespace ECS.Game.Systems
             if (_countOfPortal < 1)
             {
                 _portal = _world.CreatePortal();
-                _portalView = (PortalView) _portal.Get<LinkComponent>().View;
+                _portal.Get<ActivePortalComponent>();
                 _countOfPortal++;
             }
 
             foreach (var i in _eventInputHoldAndDragComponent)
             {
-                var inputPos = _eventInputHoldAndDragComponent.Get1(i).Down; 
-                
-                if (TryGetTouchPointInWorldSpace(out Vector3 locatePoint, inputPos))
+                // else our portal don't decected 
+                //because portal not link ( i don't know why ) 
+                foreach (var activePortal in _activePortal)
                 {
-                    Debug.Log("GetTouchPointInWorldSpace");
-                    _portalView.transform.position = locatePoint;
+                    var inputPos = _eventInputHoldAndDragComponent.Get1(i).Down;
+                    Debug.Log(inputPos.x + "+" + inputPos.y);
+                    _portalView = (PortalView) _activePortal.Get2(activePortal).View;
+                    
+                    if (TryGetTouchPointInWorldSpace(out Vector3 locatePoint, inputPos))
+                    {
+                        var position = _portalView.transform.position;
+                        position = new Vector3(locatePoint.x, locatePoint.y);
+                        _portalView.transform.position = position;
+                    }
                 }
+               
             }
         }
         
@@ -50,6 +59,7 @@ namespace ECS.Game.Systems
             var ray = actualCamera.ScreenPointToRay(inputPos);
             var hasHit = Physics.Raycast(ray, out var raycastHit);
             locatePoint = raycastHit.point;
+            Debug.DrawRay(actualCamera.transform.position, locatePoint, Color.red);
             
             return hasHit && IsHitInCurrentWall(raycastHit);
         }

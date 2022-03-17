@@ -44,7 +44,7 @@ namespace Game.Ui.InGameMenu
 
         private void OnPlay()
         {
-            View.progress.SetFillAmount(_world.GetEntity<PlayerComponent>().Get<ImpactComponent>().Value.Remap01(1000));
+            //View.progress.SetFillAmount(_world.GetEntity<PlayerComponent>().Get<ImpactComponent>().Value.Remap01(1000));
             View.progress.gameObject.SetActive(true);
             View.Play.gameObject.SetActive(false);
             _world.SetStage(EGameStage.Play);

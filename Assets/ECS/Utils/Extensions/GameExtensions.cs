@@ -36,7 +36,7 @@ namespace ECS.Utils.Extensions
             
             entity.Get<ActivePortalComponent>();
             entity.Get<UIdComponent>().Value = UidGenerator.Next();
-            
+
             //Color???
             return entity;
         }
