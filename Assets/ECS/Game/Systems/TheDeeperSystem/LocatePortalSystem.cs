@@ -17,6 +17,7 @@ namespace ECS.Game.Systems
         private readonly EcsFilter<EventInputUpComponent> _eventInputUpComponent; // Up
         private readonly EcsFilter<PortalComponent, LinkComponent, ActivePortalComponent> _activePortal; //сделать компонент "в движении" при движении
         private readonly EcsFilter<CameraComponent, LinkComponent, ActiveCameraComponent> _filterCamera;
+        private readonly EcsFilter<InActionPortalComponent> _inActionPortal;
         
         private readonly EcsWorld _world;
         private EcsEntity _portal;
@@ -28,11 +29,11 @@ namespace ECS.Game.Systems
             if (_countOfPortal < 1)
             {
                 _portal = _world.CreatePortal();
-                _portal.Get<ActivePortalComponent>();
                 _countOfPortal++;
                 //в зависимости от кол-во стен n = кол-во n 
                 //перенести в цикл ( или отдельный метод ) - портал должен создаваться после нажатия на экран,а не до
             }
+            
 
             foreach (var i in _eventInputDownComponent)
             {
@@ -61,7 +62,12 @@ namespace ECS.Game.Systems
             }
         }
         
-        public bool TryGetTouchPointInWorldSpace(out Vector3 locatePoint, Vector2 inputPos)
+        private void CreateActualPortal()
+        {
+                
+        }
+        
+        private bool TryGetTouchPointInWorldSpace(out Vector3 locatePoint, Vector2 inputPos)
         {
             var actualCamera = GetCameraFromFilter();
             //var point = actualCamera.ScreenToWorldPoint(inputPos);
