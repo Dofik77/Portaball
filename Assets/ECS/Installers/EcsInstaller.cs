@@ -29,9 +29,9 @@ namespace ECS.Installers
             Container.BindInterfacesAndSelfTo<IsAvailableSetViewSystem>().AsSingle();
             Container.BindInterfacesAndSelfTo<GameInitializeSystem>().AsSingle();
             Container.BindInterfacesAndSelfTo<InstantiateSystem>().AsSingle();
-            Container.BindInterfacesAndSelfTo<PositionRotationTranslateSystem>().AsSingle();
+            //Container.BindInterfacesAndSelfTo<PositionRotationTranslateSystem>().AsSingle();
             Container.BindInterfacesAndSelfTo<GameTimerSystem>().AsSingle();
-            
+            Container.BindInterfacesAndSelfTo<PositionSystem>().AsSingle();
             //game process system
             Container.BindInterfacesAndSelfTo<CameraLocateSystem>().AsSingle();
             Container.BindInterfacesAndSelfTo<PlayerSystem>().AsSingle();

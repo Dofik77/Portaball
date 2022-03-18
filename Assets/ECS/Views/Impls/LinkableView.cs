@@ -16,7 +16,7 @@ namespace Ecs.Views.Linkable.Impl
 			Entity = entity;
 		}
 
-		protected virtual void DestroyObject()
+		public virtual void DestroyObject()
 		{
 #if UNITY_EDITOR
 			if (UnityEditor.EditorApplication.isPlaying)

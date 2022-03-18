@@ -29,14 +29,13 @@ namespace ECS.Utils.Extensions
         public static EcsEntity CreatePortal(this EcsWorld world, PortalComponent.PortalColor portalColor)
         {
             var entity = world.NewEntity();
-            entity.Get<PortalComponent>();
+            entity.Get<PortalComponent>().color = portalColor;
             entity.Get<EventAddComponent<PortalComponent>>();
-
             
             entity.Get<PrefabComponent>().Value = Enum.GetName(typeof(PortalComponent.PortalColor), portalColor);
             entity.Get<EventAddComponent<PrefabComponent>>();
-
-            entity.Get<ActivePortalComponent>();
+            
+            entity.Get<SetPositionComponent>();
             entity.Get<UIdComponent>().Value = UidGenerator.Next();
             
             return entity;

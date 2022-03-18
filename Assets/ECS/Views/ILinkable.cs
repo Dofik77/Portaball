@@ -10,5 +10,6 @@ namespace ECS.Views
         Transform Transform { get; }
         int UnityInstanceId { get; }
         void Link(EcsEntity entity);
+        void DestroyObject();
     }
 }

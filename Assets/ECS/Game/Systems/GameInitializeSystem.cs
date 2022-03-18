@@ -45,6 +45,7 @@ namespace ECS.Game.Systems
         private void CreatePotal()
         {
             var portalOnScene = UnityEngine.Object.FindObjectsOfType<PortalView>(); 
+            
             foreach (var view in portalOnScene)
             {
                 var entity = _world.NewEntity();
@@ -53,7 +54,6 @@ namespace ECS.Game.Systems
                 entity.Get<UIdComponent>().Value = UidGenerator.Next();
                 entity.Get<LinkComponent>().View = view;
                 view.Link(entity);
-                //обракидываются ли сюда те порталы, что мы создаем руками? 
                 //find all set by gamedis portal
             }
         }

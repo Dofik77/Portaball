@@ -22,61 +22,77 @@ namespace ECS.Game.Systems
         
         private readonly EcsFilter<PortalComponent, LinkComponent, ActivePortalComponent> _activePortal;
         private readonly EcsFilter<InActionPortalComponent, LinkComponent> _inActionPortal;
-   
+
         private readonly EcsWorld _world;
         
         private EcsEntity _portal;
+
+        private EcsEntity newPortal;
         private PortalView _portalView;
         private PortalView _tempPortalView;
 
+        private int counter = 0;
+
         private PortalComponent.PortalColor _wallColor;
 
-        public void Run()
+    public void Run()
+    {
+        foreach (var i in _eventInputDownComponent) // перенести в отдельный метод 
         {
-            //replace in another method??? 
-            foreach (var i in _eventInputDownComponent)
+            var inputPos = _eventInputDownComponent.Get1(i).Down;
+
+            if (TryGetTouchPointInWorldSpace(out Vector3 locatePoint, inputPos))
             {
-                var inputPos = _eventInputDownComponent.Get1(i).Down;
-
-                if (TryGetTouchPointInWorldSpace(out Vector3 locatePoint, inputPos)) 
+                newPortal = CreateActualPortal(_wallColor);
+                
+                foreach (var j in _activePortal)
                 {
-                    foreach (var j in _activePortal) 
-                    {
-                        //check existing portal(some_color) before locate new portal(some_color)
-                        if (_wallColor == _activePortal.Get1(j).color)
-                            _activePortal.GetEntity(j).Get<IsDestroyedComponent>();
-                        Debug.Log("PortalTryDelete");
-                    }
-
-                   
-                    
-                    var newPortal = GetActualPortal(_wallColor);
-                    var newPosition = new Vector3(locatePoint.x, locatePoint.y, locatePoint.z + 0.5f);
-                   
-                    _portalView = (PortalView) newPortal.Get<LinkComponent>().View;
-                    _portalView.transform.position = newPosition;
-                   
+                    if (_activePortal.Get1(j).color == newPortal.Get<PortalComponent>().color)
+                        _activePortal.GetEntity(j).Get<IsDestroyedComponent>(); // вынести в отдельный метод? 
                 }
-                _eventInputDownComponent.GetEntity(i).Del<EventInputDownComponent>();
+                
+                var newPosition = new Vector3(locatePoint.x, locatePoint.y, locatePoint.z + 0.5f);
+                
+                newPortal.Get<ActivePortalComponent>();
+                newPortal.Get<SetPositionComponent>().position = newPosition;
             }
-            DragPortal();
+            _eventInputDownComponent.GetEntity(i).Del<EventInputDownComponent>();
         }
         
-        private void DragPortal()
+        DragPortal(newPortal);
+    }
+        
+        private void DragPortal(EcsEntity newPortal)
         {
             foreach (var i in _eventInputHoldAndDragComponent)
             {
                 var inputPos = _eventInputHoldAndDragComponent.Get1(i).Drag;
+                
+                foreach (var j in _activePortal)
+                {
+                    if (_activePortal.Get1(j).color == newPortal.Get<PortalComponent>().color)
+                        _activePortal.GetEntity(j).Get<IsDestroyedComponent>(); // вынести в отдельный метод? 
+                }
 
                 foreach (var inActionPortal in _inActionPortal)
                 {
-                    //logic 
-                }
                     
+                }
+
+                foreach (var inputUp in _eventInputUpComponent)
+                {
+                    _eventInputUpComponent.GetEntity(inputUp).Del<EventInputUpComponent>();
+                }
+                
                 
                 //drag and up - Del<MovingPortal>
                 
                 //after foreach EventInputUpComponent Del<InAction> - отдельный метод или форыч
+                
+                //по сути это должен быть клоном придедущего алгоритма - с учетом того что у нас есть Drag и обработка Up + Мы обрабатываем лишь InActionPortal
+                
+                _eventInputDownComponent.GetEntity(i).Del<EventInputDownComponent>();
+                newPortal.Del<ActivePortalComponent>();
             }
         }
         
@@ -86,7 +102,7 @@ namespace ECS.Game.Systems
             var ray = actualCamera.ScreenPointToRay(inputPos);
             var hasHit = Physics.Raycast(ray, out var raycastHit,100f, LayerMask.GetMask("Default"));
            
-            _wallColor = GetColorFromWall(raycastHit);
+            _wallColor = GetColorFromWall(raycastHit); //вынести в отдельную переменную 
             locatePoint = raycastHit.point;
             
             return hasHit;
@@ -98,15 +114,18 @@ namespace ECS.Game.Systems
             {
                 _wallColor = wallView.color;
             }
+            else
+            {
+                //uncolerd - if wall hane not opporunity set portal or check over border 
+            }
             return _wallColor;
         }
         
-        private EcsEntity GetActualPortal(PortalComponent.PortalColor portalColor)
+        private EcsEntity CreateActualPortal(PortalComponent.PortalColor portalColor)
         {
-           
             var portal = _world.CreatePortal(portalColor);
             portal.Get<InActionPortalComponent>();
-                
+            
             return portal;
         }
 
