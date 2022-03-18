@@ -1,4 +1,5 @@
-﻿using DataBase.Game;
+﻿using System;
+using DataBase.Game;
 using ECS.Core.Utils.ReactiveSystem.Components;
 using ECS.Game.Components;
 using ECS.Game.Components.Flags;
@@ -25,19 +26,19 @@ namespace ECS.Utils.Extensions
             return entity;
         }
 
-        public static EcsEntity CreatePortal(this EcsWorld world)
+        public static EcsEntity CreatePortal(this EcsWorld world, PortalComponent.PortalColor portalColor)
         {
             var entity = world.NewEntity();
             entity.Get<PortalComponent>();
             entity.Get<EventAddComponent<PortalComponent>>();
+
             
-            entity.Get<PrefabComponent>().Value = "Portal";
+            entity.Get<PrefabComponent>().Value = Enum.GetName(typeof(PortalComponent.PortalColor), portalColor);
             entity.Get<EventAddComponent<PrefabComponent>>();
-            
+
             entity.Get<ActivePortalComponent>();
             entity.Get<UIdComponent>().Value = UidGenerator.Next();
-
-            //Color???
+            
             return entity;
         }
     }

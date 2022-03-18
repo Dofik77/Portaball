@@ -5,6 +5,7 @@ using ECS.Game.Components;
 using ECS.Game.Components.Flags;
 using ECS.Utils.Extensions;
 using Leopotam.Ecs;
+using Runtime.Game.Ui.Windows.TouchPad;
 using Zenject;
 
 namespace ECS
@@ -38,6 +39,7 @@ namespace ECS
             //Create filters for use out of systems
             _world.GetFilter(typeof(EcsFilter<UIdComponent>));
             _world.GetFilter(typeof(EcsFilter<PlayerComponent>));
+            _world.GetFilter(typeof(EcsFilter<InputComponent>));
             
             _initUpdateSystems?.Init();
         }

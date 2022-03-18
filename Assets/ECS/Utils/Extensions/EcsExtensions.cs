@@ -4,6 +4,7 @@ using ECS.Game.Components.Events;
 using ECS.Game.Components.Input;
 using Leopotam.Ecs;
 using PdUtils;
+using Runtime.Game.Ui.Windows.TouchPad;
 
 namespace ECS.Utils.Extensions
 {
@@ -45,6 +46,17 @@ namespace ECS.Utils.Extensions
             systems.OneFrame<PointerUpComponent>();
             systems.OneFrame<PointerDragComponent>();
             systems.OneFrame<PointerDownComponent>();
+        }
+        
+        public static void GetInput(this EcsWorld world, out EcsEntity inputEntity)
+        {
+            inputEntity = world.GetEntity<InputComponent>();
+            if (inputEntity.IsNull())
+            {
+                var entity = world.NewEntity();
+                entity.Get<InputComponent>();
+                inputEntity = entity;
+            }
         }
     }
 }

@@ -39,7 +39,7 @@ namespace ECS.Game.Systems
             CreatePotal();
             CreatePipes();
             CreateTimer();
-            //UIIdComp for all!!!
+            CreateWall();
         }
 
         private void CreatePotal()
@@ -55,6 +55,18 @@ namespace ECS.Game.Systems
                 view.Link(entity);
                 //обракидываются ли сюда те порталы, что мы создаем руками? 
                 //find all set by gamedis portal
+            }
+        }
+        
+        private void CreateWall()
+        {
+            var wallOnScene = UnityEngine.Object.FindObjectsOfType<WallView>(); 
+            foreach (var view in wallOnScene)
+            {
+                var entity = _world.NewEntity();
+                entity.Get<UIdComponent>().Value = UidGenerator.Next();
+                entity.Get<LinkComponent>().View = view;
+                view.Link(entity);
             }
         }
 
@@ -79,7 +91,7 @@ namespace ECS.Game.Systems
             entity.Get<EventAddComponent<CameraComponent>>();
             entity.Get<ActiveCameraComponent>();
 
-            //if have PrefabComponent, we havto Get EventAddComponent<PrefabComp>
+            //if have PrefabComponent, we have to Get EventAddComponent<PrefabComp>
             //maybe relacate in Extension and just find camera on scee and get some
             //component
         }
