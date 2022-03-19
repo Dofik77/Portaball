@@ -25,30 +25,26 @@ namespace ECS.Game.Systems
 
         private readonly EcsWorld _world;
         
-        private EcsEntity _portal;
-
         private EcsEntity newPortal;
-        private PortalView _portalView;
-        private PortalView _tempPortalView;
-
-        private int counter = 0;
-
         private PortalComponent.PortalColor _wallColor;
+
+        private LayerMask _defaultLayerMask = LayerMask.GetMask("Default");
+        private LayerMask _portalLayerMask = LayerMask.GetMask("Portal");
 
     public void Run()
     {
-        foreach (var downInput in _eventInputDownComponent) // перенести в отдельный метод 
+        foreach (var downInput in _eventInputDownComponent) 
         {
             var inputPos = _eventInputDownComponent.Get1(downInput).Down;
 
-            if (TryGetTouchPointInWorldSpace(out Vector3 locatePoint, inputPos))
+            if (TryGetTouchPointInWorldSpace(out Vector3 locatePoint, _defaultLayerMask, inputPos))
             {
                 newPortal = CreateActualPortal(_wallColor);
                 
                 foreach (var activePortal in _activePortal)
                 {
                     if (_activePortal.Get1(activePortal).color == newPortal.Get<PortalComponent>().color)
-                        _activePortal.GetEntity(activePortal).Get<IsDestroyedComponent>(); // вынести в отдельный метод? 
+                        _activePortal.GetEntity(activePortal).Get<IsDestroyedComponent>();
                 }
                 
                 var newPosition = new Vector3(locatePoint.x, locatePoint.y, locatePoint.z + 0.5f);
@@ -59,50 +55,39 @@ namespace ECS.Game.Systems
             }
             _eventInputDownComponent.GetEntity(downInput).Del<EventInputDownComponent>();
         }
-        DragPortal();
+        
+        // DragPortal();
     }
         
         private void DragPortal()
         {
             foreach (var actionPortal in _inActionPortal)
             {
-                foreach (var i in _eventInputHoldAndDragComponent)
+                foreach (var holdAndDrag in _eventInputHoldAndDragComponent)
                 {
-                    var inputPos = _eventInputHoldAndDragComponent.Get1(i).Drag;
+                    var inputPos = _eventInputHoldAndDragComponent.Get1(holdAndDrag).Drag;
                     
-                    //нужен точно такой же Raycast - возможно нужно вынести LayerMask в отдельные 2 переменные 
-                    //и передавать методы с рейкастом тот LayerMask, который нужен для получения объекта
-                    //после получения объекта - меняем его Rotation через RotationComp 
-                    //и живем счастливо
+                    if (TryGetTouchPointInWorldSpace(out Vector3 locatePoint, _portalLayerMask, inputPos))
+                    {
+                        var newRotation = Quaternion.Euler(locatePoint);
+                        _inActionPortal.GetEntity(actionPortal).Get<SetRotationComponent>().Eugle = newRotation;
+                    }
+                    _eventInputHoldAndDragComponent.GetEntity(holdAndDrag).Del<EventInputHoldAndDragComponent>();
+                    
+                    foreach (var inputUp in _eventInputUpComponent)
+                    {
+                        _inActionPortal.GetEntity(actionPortal).Del<InActionPortalComponent>();
+                        _eventInputUpComponent.GetEntity(inputUp).Del<EventInputUpComponent>();
+                    }
                 }
             }
-            
-            //drag and up - Del<MovingPortal>
-                
-            //after foreach EventInputUpComponent Del<InAction> - отдельный метод или форыч
-            
-            // var inputPos = _eventInputHoldAndDragComponent.Get1(i).Drag;
-            // _eventInputHoldAndDragComponent.GetEntity(i).Del<EventInputHoldAndDragComponent>();
-            //
-            // foreach (var downInput in _eventInputDownComponent)
-            // {
-            //     _eventInputDownComponent.GetEntity(downInput).Del<EventInputDownComponent>();
-            // }
-            //     
-            // foreach (var inputUp in _eventInputUpComponent)
-            // {
-            //     _eventInputUpComponent.GetEntity(inputUp).Del<EventInputUpComponent>();
-            // }
-            // Debug.Log("HoldAndRag");
-                
-            //по сути это должен быть клоном придедущего алгоритма - с учетом того что у нас есть Drag и обработка Up + Мы обрабатываем лишь InActionPortal
         }
         
-        private bool TryGetTouchPointInWorldSpace(out Vector3 locatePoint, Vector2 inputPos)
+        private bool TryGetTouchPointInWorldSpace(out Vector3 locatePoint, LayerMask layerMask, Vector2 inputPos)
         {
             var actualCamera = GetCameraFromFilter();
             var ray = actualCamera.ScreenPointToRay(inputPos);
-            var hasHit = Physics.Raycast(ray, out var raycastHit,100f, LayerMask.GetMask("Default"));
+            var hasHit = Physics.Raycast(ray, out var raycastHit,100f,layerMask);
            
             _wallColor = GetColorFromWall(raycastHit); //вынести в отдельную переменную 
             locatePoint = raycastHit.point;
