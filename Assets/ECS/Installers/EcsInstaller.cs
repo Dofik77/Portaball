@@ -32,6 +32,7 @@ namespace ECS.Installers
             //Container.BindInterfacesAndSelfTo<PositionRotationTranslateSystem>().AsSingle();
             Container.BindInterfacesAndSelfTo<GameTimerSystem>().AsSingle();
             Container.BindInterfacesAndSelfTo<PositionSystem>().AsSingle();
+            Container.BindInterfacesAndSelfTo<RotateSystem>().AsSingle();
             //game process system
             Container.BindInterfacesAndSelfTo<CameraLocateSystem>().AsSingle();
             Container.BindInterfacesAndSelfTo<PlayerSystem>().AsSingle();

@@ -17,8 +17,6 @@ namespace ECS.Game.Systems
         {
             var point = _getPointFromScene.GetPoint("Player");
             entity.Get<LinkComponent>().View.Transform.position = point.position;
-            
-            
         }
     }
 }

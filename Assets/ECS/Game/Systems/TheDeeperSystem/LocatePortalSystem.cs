@@ -37,63 +37,65 @@ namespace ECS.Game.Systems
 
     public void Run()
     {
-        foreach (var i in _eventInputDownComponent) // перенести в отдельный метод 
+        foreach (var downInput in _eventInputDownComponent) // перенести в отдельный метод 
         {
-            var inputPos = _eventInputDownComponent.Get1(i).Down;
+            var inputPos = _eventInputDownComponent.Get1(downInput).Down;
 
             if (TryGetTouchPointInWorldSpace(out Vector3 locatePoint, inputPos))
             {
                 newPortal = CreateActualPortal(_wallColor);
                 
-                foreach (var j in _activePortal)
+                foreach (var activePortal in _activePortal)
                 {
-                    if (_activePortal.Get1(j).color == newPortal.Get<PortalComponent>().color)
-                        _activePortal.GetEntity(j).Get<IsDestroyedComponent>(); // вынести в отдельный метод? 
+                    if (_activePortal.Get1(activePortal).color == newPortal.Get<PortalComponent>().color)
+                        _activePortal.GetEntity(activePortal).Get<IsDestroyedComponent>(); // вынести в отдельный метод? 
                 }
                 
                 var newPosition = new Vector3(locatePoint.x, locatePoint.y, locatePoint.z + 0.5f);
                 
                 newPortal.Get<ActivePortalComponent>();
+                newPortal.Get<InActionPortalComponent>();
                 newPortal.Get<SetPositionComponent>().position = newPosition;
             }
-            _eventInputDownComponent.GetEntity(i).Del<EventInputDownComponent>();
+            _eventInputDownComponent.GetEntity(downInput).Del<EventInputDownComponent>();
         }
-        
-        DragPortal(newPortal);
+        DragPortal();
     }
         
-        private void DragPortal(EcsEntity newPortal)
+        private void DragPortal()
         {
-            foreach (var i in _eventInputHoldAndDragComponent)
+            foreach (var actionPortal in _inActionPortal)
             {
-                var inputPos = _eventInputHoldAndDragComponent.Get1(i).Drag;
-                
-                foreach (var j in _activePortal)
+                foreach (var i in _eventInputHoldAndDragComponent)
                 {
-                    if (_activePortal.Get1(j).color == newPortal.Get<PortalComponent>().color)
-                        _activePortal.GetEntity(j).Get<IsDestroyedComponent>(); // вынести в отдельный метод? 
-                }
-
-                foreach (var inActionPortal in _inActionPortal)
-                {
+                    var inputPos = _eventInputHoldAndDragComponent.Get1(i).Drag;
                     
+                    //нужен точно такой же Raycast - возможно нужно вынести LayerMask в отдельные 2 переменные 
+                    //и передавать методы с рейкастом тот LayerMask, который нужен для получения объекта
+                    //после получения объекта - меняем его Rotation через RotationComp 
+                    //и живем счастливо
                 }
-
-                foreach (var inputUp in _eventInputUpComponent)
-                {
-                    _eventInputUpComponent.GetEntity(inputUp).Del<EventInputUpComponent>();
-                }
-                
-                
-                //drag and up - Del<MovingPortal>
-                
-                //after foreach EventInputUpComponent Del<InAction> - отдельный метод или форыч
-                
-                //по сути это должен быть клоном придедущего алгоритма - с учетом того что у нас есть Drag и обработка Up + Мы обрабатываем лишь InActionPortal
-                
-                _eventInputDownComponent.GetEntity(i).Del<EventInputDownComponent>();
-                newPortal.Del<ActivePortalComponent>();
             }
+            
+            //drag and up - Del<MovingPortal>
+                
+            //after foreach EventInputUpComponent Del<InAction> - отдельный метод или форыч
+            
+            // var inputPos = _eventInputHoldAndDragComponent.Get1(i).Drag;
+            // _eventInputHoldAndDragComponent.GetEntity(i).Del<EventInputHoldAndDragComponent>();
+            //
+            // foreach (var downInput in _eventInputDownComponent)
+            // {
+            //     _eventInputDownComponent.GetEntity(downInput).Del<EventInputDownComponent>();
+            // }
+            //     
+            // foreach (var inputUp in _eventInputUpComponent)
+            // {
+            //     _eventInputUpComponent.GetEntity(inputUp).Del<EventInputUpComponent>();
+            // }
+            // Debug.Log("HoldAndRag");
+                
+            //по сути это должен быть клоном придедущего алгоритма - с учетом того что у нас есть Drag и обработка Up + Мы обрабатываем лишь InActionPortal
         }
         
         private bool TryGetTouchPointInWorldSpace(out Vector3 locatePoint, Vector2 inputPos)
@@ -143,12 +145,3 @@ namespace ECS.Game.Systems
         }
     }
 }
-
-
-// catch drag, catch down
-// down - locate, drag rotate
-          
-//позиция надавленного пальца 
-//тык на экран -> ставится телепорт
-//начал водить -> меняется rotaion
-//тык в другое место -> новый телепорт и так далее
