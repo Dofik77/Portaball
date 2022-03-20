@@ -33,36 +33,35 @@ namespace ECS.Game.Systems
 
     public void Run()
     {
-        foreach (var downInput in _eventInputDownComponent) 
-        {
-            var inputPos = _eventInputDownComponent.Get1(downInput).Down;
-
-            if (TryGetTouchPointInWorldSpace(out Vector3 locatePoint, _defaultLayerMask, inputPos))
-            {
-                newPortal = CreateActualPortal(_wallColor);
-                
-                foreach (var activePortal in _activePortal)
-                {
-                    if (_activePortal.Get1(activePortal).color == newPortal.Get<PortalComponent>().color)
-                        _activePortal.GetEntity(activePortal).Get<IsDestroyedComponent>();
-                }
-                
-                var newPosition = new Vector3(locatePoint.x, locatePoint.y, locatePoint.z + 0.5f);
-                
-                newPortal.Get<ActivePortalComponent>();
-                newPortal.Get<InActionPortalComponent>();
-                newPortal.Get<SetPositionComponent>().position = newPosition;
-            }
-            _eventInputDownComponent.GetEntity(downInput).Del<EventInputDownComponent>();
-        }
-        
+        LocatePortal();
         DragPortal();
     }
 
-    private void LocatePortal()
-    {
-        
-    }
+        private void LocatePortal()
+        {
+            foreach (var downInput in _eventInputDownComponent) 
+            {
+                var inputPos = _eventInputDownComponent.Get1(downInput).Down;
+
+                if (TryGetTouchPointInWorldSpace(out Vector3 locatePoint, _defaultLayerMask, inputPos))
+                {
+                    newPortal = CreateActualPortal(_wallColor);
+                    
+                    foreach (var activePortal in _activePortal)
+                    {
+                        if (_activePortal.Get1(activePortal).color == newPortal.Get<PortalComponent>().color)
+                            _activePortal.GetEntity(activePortal).Get<IsDestroyedComponent>();
+                    }
+                    
+                    var newPosition = new Vector3(locatePoint.x, locatePoint.y, locatePoint.z + 0.5f);
+                    
+                    newPortal.Get<ActivePortalComponent>();
+                    newPortal.Get<InActionPortalComponent>();
+                    newPortal.Get<SetPositionComponent>().position = newPosition;
+                }
+                _eventInputDownComponent.GetEntity(downInput).Del<EventInputDownComponent>();
+            }
+        }
         
         private void DragPortal()
         {
