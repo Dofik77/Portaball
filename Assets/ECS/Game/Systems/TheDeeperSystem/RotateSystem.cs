@@ -18,7 +18,9 @@ namespace ECS.Game.Systems
             foreach (var position in _portalRotation)
             {
                 var portalView = (PortalView) _portalRotation.Get2(position).View;
-                portalView.transform.Rotate(portalView.transform.forward);
+                var eugle = _portalRotation.Get1(position).Eugle;
+                portalView.transform.Rotate(new Vector3(eugle.x,0,0).normalized);
+                //костыль - скрипт PortalSystem
 
                 _portalRotation.GetEntity(position).Del<SetRotationComponent>();
             }

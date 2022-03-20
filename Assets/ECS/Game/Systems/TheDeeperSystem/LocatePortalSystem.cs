@@ -35,13 +35,12 @@ namespace ECS.Game.Systems
         private readonly LayerMask _defaultLayerMask = LayerMask.GetMask("Default");
         private readonly LayerMask _portalLayerMask = LayerMask.GetMask("Portal");
 
-    public void Run()
-    {
-        LocatePortal();
-        DragPortal(); // not work
-    }
+        public void Run()
+        {
+            LocatePortal();
+            DragPortal();
+        }
     
-
         private void LocatePortal()
         {
             foreach (var downInput in _eventInputDownComponent) 
@@ -79,14 +78,13 @@ namespace ECS.Game.Systems
                     
                     if (GetPointInWorldSpace(out Vector3 locatePoint, out RaycastHit raycastHit, _portalLayerMask, dragPos))
                     {
-                        _deltaPos = _downPos - _prevPos;
+                        _deltaPos = (dragPos - (Vector2)_downPos);
                         _inActionPortal.GetEntity(inActionPortal).Get<SetRotationComponent>().Eugle =
                             _deltaPos;
                     }
                     _eventInputHoldAndDragComponent.GetEntity(holdAndDrag).Del<EventInputHoldAndDragComponent>();
-                    _prevPos = _downPos;
                 }
-                
+
                 foreach (var inputUp in _eventInputUpComponent)
                 {
                     _inActionPortal.GetEntity(inActionPortal).Del<InActionPortalComponent>();
@@ -97,7 +95,7 @@ namespace ECS.Game.Systems
         }
         
         private bool GetPointInWorldSpace(out Vector3 locatePoint, out RaycastHit raycastHit,
-            LayerMask targetLayer, Vector2 inputPos)
+            LayerMask targetLayer, Vector3 inputPos)
         {
             var actualCamera = GetCameraFromFilter();
             var ray = actualCamera.ScreenPointToRay(inputPos);
