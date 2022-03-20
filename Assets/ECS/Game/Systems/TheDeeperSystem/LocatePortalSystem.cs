@@ -25,39 +25,45 @@ namespace ECS.Game.Systems
 
         private readonly EcsWorld _world;
         
-        private EcsEntity newPortal;
+        private EcsEntity _newPortal;
         private PortalComponent.PortalColor _wallColor;
+        
+        private Vector3 _deltaPos = Vector3.zero;   
+        private Vector3 _prevPos = Vector3.zero;
+        private Vector3 _downPos = Vector3.zero;
 
-        private LayerMask _defaultLayerMask = LayerMask.GetMask("Default");
-        private LayerMask _portalLayerMask = LayerMask.GetMask("Portal");
+        private readonly LayerMask _defaultLayerMask = LayerMask.GetMask("Default");
+        private readonly LayerMask _portalLayerMask = LayerMask.GetMask("Portal");
 
     public void Run()
     {
         LocatePortal();
-        DragPortal();
+        DragPortal(); // not work
     }
+    
 
         private void LocatePortal()
         {
             foreach (var downInput in _eventInputDownComponent) 
             {
-                var inputPos = _eventInputDownComponent.Get1(downInput).Down;
+                _downPos = _eventInputDownComponent.Get1(downInput).Down;
 
-                if (TryGetTouchPointInWorldSpace(out Vector3 locatePoint, _defaultLayerMask, inputPos))
+                if (GetPointInWorldSpace(out Vector3 locatePoint, out RaycastHit raycastHit, _defaultLayerMask, _downPos))
                 {
-                    newPortal = CreateActualPortal(_wallColor);
+                    _wallColor = GetColorFromWall(raycastHit);
+                    _newPortal = CreateActualPortal(_wallColor);
                     
                     foreach (var activePortal in _activePortal)
                     {
-                        if (_activePortal.Get1(activePortal).color == newPortal.Get<PortalComponent>().color)
+                        if (_activePortal.Get1(activePortal).color == _newPortal.Get<PortalComponent>().color)
                             _activePortal.GetEntity(activePortal).Get<IsDestroyedComponent>();
                     }
                     
-                    var newPosition = new Vector3(locatePoint.x, locatePoint.y, locatePoint.z + 0.5f);
+                    var newPosition = new Vector3(locatePoint.x, locatePoint.y, locatePoint.z + 1.31f);
                     
-                    newPortal.Get<ActivePortalComponent>();
-                    newPortal.Get<InActionPortalComponent>();
-                    newPortal.Get<SetPositionComponent>().position = newPosition;
+                    _newPortal.Get<ActivePortalComponent>();
+                    _newPortal.Get<InActionPortalComponent>();
+                    _newPortal.Get<SetPositionComponent>().position = newPosition;
                 }
                 _eventInputDownComponent.GetEntity(downInput).Del<EventInputDownComponent>();
             }
@@ -65,51 +71,43 @@ namespace ECS.Game.Systems
         
         private void DragPortal()
         {
-            foreach (var actionPortal in _inActionPortal)
+            foreach (var inActionPortal in _inActionPortal)
             {
                 foreach (var holdAndDrag in _eventInputHoldAndDragComponent)
                 {
-                    var inputPos = _eventInputHoldAndDragComponent.Get1(holdAndDrag).Drag;
+                    var dragPos = _eventInputHoldAndDragComponent.Get1(holdAndDrag).Drag;
                     
-                    if (TryGetRotatePointInWorldSpace(out Vector3 locatePoint, _portalLayerMask, inputPos))
+                    if (GetPointInWorldSpace(out Vector3 locatePoint, out RaycastHit raycastHit, _portalLayerMask, dragPos))
                     {
-                        var newRotation = Quaternion.Euler(locatePoint);
-                        _inActionPortal.GetEntity(actionPortal).Get<SetRotationComponent>().Eugle = newRotation;
+                        _deltaPos = _downPos - _prevPos;
+                        _inActionPortal.GetEntity(inActionPortal).Get<SetRotationComponent>().Eugle =
+                            _deltaPos;
                     }
                     _eventInputHoldAndDragComponent.GetEntity(holdAndDrag).Del<EventInputHoldAndDragComponent>();
-                    
-                    foreach (var inputUp in _eventInputUpComponent)
-                    {
-                        _inActionPortal.GetEntity(actionPortal).Del<InActionPortalComponent>();
-                        _eventInputUpComponent.GetEntity(inputUp).Del<EventInputUpComponent>();
-                    }
+                    _prevPos = _downPos;
                 }
+                
+                foreach (var inputUp in _eventInputUpComponent)
+                {
+                    _inActionPortal.GetEntity(inActionPortal).Del<InActionPortalComponent>();
+                    _eventInputUpComponent.GetEntity(inputUp).Del<EventInputUpComponent>();
+                }
+                
             }
         }
         
-        private bool TryGetTouchPointInWorldSpace(out Vector3 locatePoint, LayerMask layerMask, Vector2 inputPos)
+        private bool GetPointInWorldSpace(out Vector3 locatePoint, out RaycastHit raycastHit,
+            LayerMask targetLayer, Vector2 inputPos)
         {
             var actualCamera = GetCameraFromFilter();
             var ray = actualCamera.ScreenPointToRay(inputPos);
-            var hasHit = Physics.Raycast(ray, out var raycastHit,100f,layerMask);
-           
-            _wallColor = GetColorFromWall(raycastHit); //вынести в отдельный метод
-            locatePoint = raycastHit.point;
-            
-            return hasHit;
-        }
-        
-        private bool TryGetRotatePointInWorldSpace(out Vector3 locatePoint, LayerMask layerMask, Vector2 inputPos)
-        {
-            var actualCamera = GetCameraFromFilter();
-            var ray = actualCamera.ScreenPointToRay(inputPos);
-            var hasHit = Physics.Raycast(ray, out var raycastHit,100f,layerMask);
+            var hasHit = Physics.Raycast(ray, out raycastHit,100f,targetLayer);
             
             locatePoint = raycastHit.point;
             
             return hasHit;
         }
-        
+
         private PortalComponent.PortalColor GetColorFromWall(RaycastHit raycastHit)
         {
             if (raycastHit.transform.gameObject.TryGetComponent(out WallView wallView))
@@ -119,6 +117,7 @@ namespace ECS.Game.Systems
             else
             {
                 //uncolerd - if wall hane not opporunity set portal or check over border 
+                //exception - if stf don't have any color
             }
             return _wallColor;
         }
@@ -131,7 +130,7 @@ namespace ECS.Game.Systems
             return portal;
         }
 
-        public Camera GetCameraFromFilter()
+        private Camera GetCameraFromFilter()
         {
             Camera actualCamera = null;
             
