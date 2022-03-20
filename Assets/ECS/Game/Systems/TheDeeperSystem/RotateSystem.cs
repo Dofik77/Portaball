@@ -1,10 +1,11 @@
-﻿using ECS.Game.Components;
+﻿using ECS.Core.Utils.SystemInterfaces;
+using ECS.Game.Components;
 using ECS.Game.Components.TheDeeperComponent;
 using Leopotam.Ecs;
 
 namespace ECS.Game.Systems
 {
-    public class RotateSystem
+    public class RotateSystem : IEcsUpdateSystem
     {
         private readonly EcsFilter<SetRotationComponent, LinkComponent> _portalRotation;
         public void Run()

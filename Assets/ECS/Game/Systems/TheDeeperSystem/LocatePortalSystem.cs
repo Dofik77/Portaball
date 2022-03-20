@@ -56,7 +56,12 @@ namespace ECS.Game.Systems
             _eventInputDownComponent.GetEntity(downInput).Del<EventInputDownComponent>();
         }
         
-        // DragPortal();
+        DragPortal();
+    }
+
+    private void LocatePortal()
+    {
+        
     }
         
         private void DragPortal()
@@ -67,7 +72,7 @@ namespace ECS.Game.Systems
                 {
                     var inputPos = _eventInputHoldAndDragComponent.Get1(holdAndDrag).Drag;
                     
-                    if (TryGetTouchPointInWorldSpace(out Vector3 locatePoint, _portalLayerMask, inputPos))
+                    if (TryGetRotatePointInWorldSpace(out Vector3 locatePoint, _portalLayerMask, inputPos))
                     {
                         var newRotation = Quaternion.Euler(locatePoint);
                         _inActionPortal.GetEntity(actionPortal).Get<SetRotationComponent>().Eugle = newRotation;
@@ -89,7 +94,18 @@ namespace ECS.Game.Systems
             var ray = actualCamera.ScreenPointToRay(inputPos);
             var hasHit = Physics.Raycast(ray, out var raycastHit,100f,layerMask);
            
-            _wallColor = GetColorFromWall(raycastHit); //вынести в отдельную переменную 
+            _wallColor = GetColorFromWall(raycastHit); //вынести в отдельный метод
+            locatePoint = raycastHit.point;
+            
+            return hasHit;
+        }
+        
+        private bool TryGetRotatePointInWorldSpace(out Vector3 locatePoint, LayerMask layerMask, Vector2 inputPos)
+        {
+            var actualCamera = GetCameraFromFilter();
+            var ray = actualCamera.ScreenPointToRay(inputPos);
+            var hasHit = Physics.Raycast(ray, out var raycastHit,100f,layerMask);
+            
             locatePoint = raycastHit.point;
             
             return hasHit;
