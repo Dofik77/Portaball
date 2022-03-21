@@ -52,7 +52,7 @@ namespace Game.Ui.InGameMenu
             //View.progress.SetFillAmount(_world.GetEntity<PlayerComponent>().Get<ImpactComponent>().Value.Remap01(1000));
             View.progress.gameObject.SetActive(true);
             View.Play.gameObject.SetActive(false);
-            View.Restart.gameObject.SetActive(true);
+            //View.Restart.gameObject.SetActive(true);
             _world.SetStage(EGameStage.Play);
         }
 
