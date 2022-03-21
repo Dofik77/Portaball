@@ -113,7 +113,7 @@ namespace ECS.Game.Systems
         {
             if (raycastHit.transform.gameObject.TryGetComponent(out WallView wallView))
             {
-                _wallColor = wallView.color;
+                _wallColor = (PortalComponent.PortalColor) wallView.color;
             }
             else
             {

@@ -31,7 +31,12 @@ namespace Game.Ui.InGameMenu
             _signalBus = signalBus;
             _commonPlayerData = commonPlayerData;
         }
-        
+
+        public override void OnShow()
+        {
+            
+        }
+
         public void Initialize()
         {
             View.Play.OnClickAsObservable().Subscribe(x => OnPlay()).AddTo(View.Play);
@@ -47,6 +52,7 @@ namespace Game.Ui.InGameMenu
             //View.progress.SetFillAmount(_world.GetEntity<PlayerComponent>().Get<ImpactComponent>().Value.Remap01(1000));
             View.progress.gameObject.SetActive(true);
             View.Play.gameObject.SetActive(false);
+            View.Restart.gameObject.SetActive(true);
             _world.SetStage(EGameStage.Play);
         }
 

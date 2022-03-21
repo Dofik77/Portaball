@@ -66,7 +66,9 @@ namespace ECS.Game.Systems
                 var entity = _world.NewEntity();
                 entity.Get<UIdComponent>().Value = UidGenerator.Next();
                 entity.Get<LinkComponent>().View = view;
+                entity.Get<EventAddComponent<WallComponent>>();
                 view.Link(entity);
+                //find all set by gamedis wall
             }
         }
 

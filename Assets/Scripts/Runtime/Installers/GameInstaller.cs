@@ -18,8 +18,8 @@ namespace Installers
 
         private void BindWindows()
         {
-            Container.BindInterfacesAndSelfTo<ConsentWindow>().AsSingle();
-            Container.BindInterfacesAndSelfTo<GameHudWindow>().AsSingle();
+             Container.BindInterfacesAndSelfTo<ConsentWindow>().AsSingle();
+             Container.BindInterfacesAndSelfTo<GameHudWindow>().AsSingle();
         }
 
         private void BindServices()

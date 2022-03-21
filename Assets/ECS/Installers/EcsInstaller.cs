@@ -5,6 +5,7 @@ using ECS.Game.Systems.Linked;
 using ECS.Game.Systems.Move;
 using Game.Utils.MonoBehUtils;
 using Leopotam.Ecs;
+using Runtime.DataBase.Objects.Impl;
 using UnityEngine;
 using Zenject;
 
@@ -13,6 +14,7 @@ namespace ECS.Installers
     public class EcsInstaller : MonoInstaller
     {
         [SerializeField] private GetPointFromScene _getPointFromScene;
+        [SerializeField] private MaterialBase _materiarBase;
         [SerializeField] private ScenePath _pathRoot;
         public override void InstallBindings()
         {
@@ -21,6 +23,8 @@ namespace ECS.Installers
             Container.BindInterfacesAndSelfTo<EcsWorld>().AsSingle().NonLazy();
             BindSystems();
             Container.BindInterfacesTo<EcsMainBootstrap>().AsSingle();
+
+            Container.Bind<MaterialBase>().FromInstance(_materiarBase).AsSingle();
         }
 
         private void BindSystems()
@@ -45,6 +49,7 @@ namespace ECS.Installers
             // Container.BindInterfacesAndSelfTo<PlayerModelMoveSideSystem>().AsSingle();
             // Container.BindInterfacesAndSelfTo<AddImpactToPlayerSystem>().AsSingle();
             Container.BindInterfacesAndSelfTo<PlayerInputSystem>().AsSingle();
+            Container.BindInterfacesAndSelfTo<WallColoringSystem>().AsSingle();
             
             //tech system
             Container.BindInterfacesAndSelfTo<GamePauseSystem>().AsSingle();

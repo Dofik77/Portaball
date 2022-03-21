@@ -32,6 +32,10 @@ namespace ECS.Utils.Impls
         {
             if (entity.Has<PrefabComponent>())
                 return InstantiateLinkable(_prefabsBase.Get(entity.Get<PrefabComponent>().Value));
+            
+            // if(entity.Has<MaterialComponent>())
+            //     return InstantiateLinkable()
+            //сделать SO под материалы
                 
             throw new Exception($"[SpawnService] Can't instantiate entity with uid: " + entity);
         }

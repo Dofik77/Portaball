@@ -15,16 +15,12 @@ namespace ECS.Game.Systems
 {
     public class CameraLocateSystem : ReactiveSystem<EventAddComponent<CameraComponent>>
     {
-        [Inject] private readonly ISpawnService<EcsEntity, ILinkable> _spawnService;
         [Inject] private readonly GetPointFromScene _getPointFromScene;
         protected override EcsFilter<EventAddComponent<CameraComponent>> ReactiveFilter { get; }
         protected override void Execute(EcsEntity entity)
         {
             var point = _getPointFromScene.GetPoint("Camera");
             entity.Get<LinkComponent>().View.Transform.position = point.position;
-            // entity.Get<LinkComponent>().View.Transform.rotation = 
-            //     Quaternion.Euler(new Vector3(0f, 180f, 0f));
-
         }
     }
 }

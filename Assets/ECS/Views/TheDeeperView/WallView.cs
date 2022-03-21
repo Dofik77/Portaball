@@ -8,6 +8,6 @@ namespace ECS.Views.Impls
 {
     public class WallView : LinkableView
     {
-        [SerializeField] public PortalComponent.PortalColor color;
+        [SerializeField] public WallComponent.WallColor color;
     }
 }
