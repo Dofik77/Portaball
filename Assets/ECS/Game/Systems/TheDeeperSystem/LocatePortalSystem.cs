@@ -50,19 +50,23 @@ namespace ECS.Game.Systems
                 if (GetPointInWorldSpace(out Vector3 locatePoint, out RaycastHit raycastHit, _defaultLayerMask, _downPos))
                 {
                     _wallColor = GetColorFromWall(raycastHit);
-                    _newPortal = CreateActualPortal(_wallColor);
                     
-                    foreach (var activePortal in _activePortal)
+                    if (_wallColor != PortalComponent.PortalColor.Default)
                     {
-                        if (_activePortal.Get1(activePortal).color == _newPortal.Get<PortalComponent>().color)
-                            _activePortal.GetEntity(activePortal).Get<IsDestroyedComponent>();
+                        _newPortal = CreateActualPortal(_wallColor);
+                        
+                        foreach (var activePortal in _activePortal)
+                        {
+                            if (_activePortal.Get1(activePortal).color == _newPortal.Get<PortalComponent>().color)
+                                _activePortal.GetEntity(activePortal).Get<IsDestroyedComponent>();
+                        }
+                    
+                        var newPosition = new Vector3(locatePoint.x, locatePoint.y, locatePoint.z - 1.31f);
+                    
+                        _newPortal.Get<ActivePortalComponent>();
+                        _newPortal.Get<InActionPortalComponent>();
+                        _newPortal.Get<SetPositionComponent>().position = newPosition;
                     }
-                    
-                    var newPosition = new Vector3(locatePoint.x, locatePoint.y, locatePoint.z - 1.31f);
-                    
-                    _newPortal.Get<ActivePortalComponent>();
-                    _newPortal.Get<InActionPortalComponent>();
-                    _newPortal.Get<SetPositionComponent>().position = newPosition;
                 }
                 _eventInputDownComponent.GetEntity(downInput).Del<EventInputDownComponent>();
             }
@@ -76,24 +80,26 @@ namespace ECS.Game.Systems
                 {
                     var dragPos = _eventInputHoldAndDragComponent.Get1(holdAndDrag).Drag;
                     var downPos = _eventInputHoldAndDragComponent.Get1(holdAndDrag).Down;
-
-                    // _deltaPos = dragPos - _downPos;
-                    // var angle = Vector2.SignedAngle(_downPos, dragPos * 1000f);
-                    // Debug.Log(angle);
+                    
+                    Debug.Log("InDragCycle");
 
                     var angle = Vector2.SignedAngle(downPos, dragPos);
+                    
+                    Debug.Log(angle);
 
                     _inActionPortal.GetEntity(inActionPortal).Get<SetRotationComponent>().deltaAngle =
                         angle;
-
-                    _eventInputHoldAndDragComponent.GetEntity(holdAndDrag).Del<EventInputHoldAndDragComponent>();
-                    
-                    foreach (var inputUp in _eventInputUpComponent)
-                    {
-                        _inActionPortal.GetEntity(inActionPortal).Del<InActionPortalComponent>();
-                        _eventInputUpComponent.GetEntity(inputUp).Del<EventInputUpComponent>();
-                    }
                 }
+                _eventInputHoldAndDragComponent.GetEntity(holdAndDrag).Del<EventInputHoldAndDragComponent>();
+            }
+            
+            foreach (var inputUp in _eventInputUpComponent)
+            {
+                foreach (var inActionPortal in _inActionPortal)
+                {
+                    _inActionPortal.GetEntity(inActionPortal).Del<InActionPortalComponent>();
+                }
+                _eventInputUpComponent.GetEntity(inputUp).Del<EventInputUpComponent>();
             }
         }
 

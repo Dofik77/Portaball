@@ -26,8 +26,6 @@ namespace ECS.Game.Systems
 
                 var angelToRotate = new Vector3(0, 0, angle);
                 portalView.transform.localEulerAngles += angelToRotate.normalized;
-                
-                Debug.Log(angle);
 
                 //костыль - скрипт PortalSystem
 

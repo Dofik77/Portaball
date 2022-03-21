@@ -60,13 +60,13 @@ namespace ECS.Game.Systems
                     sphereTransform.position =
                         exitPortalPoint.position;
 
-                    sphereTransform.rotation = 
-                        exitPortalTransform.rotation;
+                    // sphereTransform.rotation = 
+                    //     exitPortalTransform.rotation;
                     //sphere.engel - portal.system + portal2.system
                     //do letter
 
-                    sphereView.rigidbody.velocity =
-                        sphereVelocity;
+                    // sphereView.rigidbody.velocity =
+                    //     sphereVelocity;
                 }
             }
         }

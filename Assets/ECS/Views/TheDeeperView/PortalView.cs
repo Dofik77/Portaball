@@ -13,6 +13,7 @@ namespace ECS.Views.Impls
     public class PortalView : LinkableView
     {
         [SerializeField] public PortalComponent.PortalColor color;
+        [SerializeField] private GameObject _pointToLocate;
         public event Action<Uid, PortalComponent.PortalColor> OnSphereTrigger;
 
         private void OnTriggerEnter(Collider other)
