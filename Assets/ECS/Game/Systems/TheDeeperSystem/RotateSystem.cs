@@ -15,14 +15,23 @@ namespace ECS.Game.Systems
         
         public void Run()
         {
-            foreach (var position in _portalRotation)
+            foreach (var rotation in _portalRotation)
             {
-                var portalView = (PortalView) _portalRotation.Get2(position).View;
-                var eugle = _portalRotation.Get1(position).Eugle;
-                portalView.transform.Rotate(new Vector3(eugle.x,0,0).normalized);
+                var portalView = (PortalView) _portalRotation.Get2(rotation).View;
+                var angle = _portalRotation.Get1(rotation).deltaAngle;
+                // portalView.transform.eulerAngles = new Vector3(0, 0,eugle);
+                
+                // portalView.transform.Rotate(portalView.transform.forward,
+                //     Vector2.Dot(angle, Vector2.right) * -1, Space.World);
+
+                var angelToRotate = new Vector3(0, 0, angle);
+                portalView.transform.localEulerAngles += angelToRotate.normalized;
+                
+                Debug.Log(angle);
+
                 //костыль - скрипт PortalSystem
 
-                _portalRotation.GetEntity(position).Del<SetRotationComponent>();
+                _portalRotation.GetEntity(rotation).Del<SetRotationComponent>();
             }
         }
     }

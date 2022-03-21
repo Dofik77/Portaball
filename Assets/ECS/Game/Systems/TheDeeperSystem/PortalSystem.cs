@@ -24,7 +24,6 @@ namespace ECS.Game.Systems
         protected override void Execute(EcsEntity entity)
         {
             PortalView portalView = entity.Get<LinkComponent>().View as PortalView;
-            portalView.transform.rotation = Quaternion.Euler(0,-90f,0);
             portalView.OnSphereTrigger += FindAnotherPortal;
         }
         
@@ -56,7 +55,7 @@ namespace ECS.Game.Systems
 
                     var sphereTransform = sphereView.rigidbody.transform;
                     var exitPortalTransform = exitPortalView.Transform;
-                    var exitPortalPoint = exitPortalTransform.GetChild(0);
+                    var exitPortalPoint = exitPortalTransform.GetChild(0);  
 
                     sphereTransform.position =
                         exitPortalPoint.position;

@@ -27,10 +27,10 @@ namespace ECS.Game.Systems
         
         private EcsEntity _newPortal;
         private PortalComponent.PortalColor _wallColor;
-        
-        private Vector3 _deltaPos = Vector3.zero;   
-        private Vector3 _prevPos = Vector3.zero;
-        private Vector3 _downPos = Vector3.zero;
+
+        private float _deltaPos;
+        private Vector2 _prevPos;
+        private Vector2 _downPos;
 
         private readonly LayerMask _defaultLayerMask = LayerMask.GetMask("Default");
         private readonly LayerMask _portalLayerMask = LayerMask.GetMask("Portal");
@@ -58,7 +58,7 @@ namespace ECS.Game.Systems
                             _activePortal.GetEntity(activePortal).Get<IsDestroyedComponent>();
                     }
                     
-                    var newPosition = new Vector3(locatePoint.x, locatePoint.y, locatePoint.z + 1.31f);
+                    var newPosition = new Vector3(locatePoint.x, locatePoint.y, locatePoint.z - 1.31f);
                     
                     _newPortal.Get<ActivePortalComponent>();
                     _newPortal.Get<InActionPortalComponent>();
@@ -70,31 +70,34 @@ namespace ECS.Game.Systems
         
         private void DragPortal()
         {
-            foreach (var inActionPortal in _inActionPortal)
+            foreach (var holdAndDrag in _eventInputHoldAndDragComponent) // перенести
             {
-                foreach (var holdAndDrag in _eventInputHoldAndDragComponent)
+                foreach (var inActionPortal in _inActionPortal)
                 {
                     var dragPos = _eventInputHoldAndDragComponent.Get1(holdAndDrag).Drag;
-                    
-                    if (GetPointInWorldSpace(out Vector3 locatePoint, out RaycastHit raycastHit, _portalLayerMask, dragPos))
-                    {
-                        _deltaPos = (dragPos - (Vector2)_downPos);
-                        _inActionPortal.GetEntity(inActionPortal).Get<SetRotationComponent>().Eugle =
-                            _deltaPos;
-                    }
-                    _eventInputHoldAndDragComponent.GetEntity(holdAndDrag).Del<EventInputHoldAndDragComponent>();
-                }
+                    var downPos = _eventInputHoldAndDragComponent.Get1(holdAndDrag).Down;
 
-                foreach (var inputUp in _eventInputUpComponent)
-                {
-                    _inActionPortal.GetEntity(inActionPortal).Del<InActionPortalComponent>();
-                    _eventInputUpComponent.GetEntity(inputUp).Del<EventInputUpComponent>();
+                    // _deltaPos = dragPos - _downPos;
+                    // var angle = Vector2.SignedAngle(_downPos, dragPos * 1000f);
+                    // Debug.Log(angle);
+
+                    var angle = Vector2.SignedAngle(downPos, dragPos);
+
+                    _inActionPortal.GetEntity(inActionPortal).Get<SetRotationComponent>().deltaAngle =
+                        angle;
+
+                    _eventInputHoldAndDragComponent.GetEntity(holdAndDrag).Del<EventInputHoldAndDragComponent>();
+                    
+                    foreach (var inputUp in _eventInputUpComponent)
+                    {
+                        _inActionPortal.GetEntity(inActionPortal).Del<InActionPortalComponent>();
+                        _eventInputUpComponent.GetEntity(inputUp).Del<EventInputUpComponent>();
+                    }
                 }
-                
             }
         }
-        
-        private bool GetPointInWorldSpace(out Vector3 locatePoint, out RaycastHit raycastHit,
+
+    private bool GetPointInWorldSpace(out Vector3 locatePoint, out RaycastHit raycastHit,
             LayerMask targetLayer, Vector3 inputPos)
         {
             var actualCamera = GetCameraFromFilter();

@@ -4,6 +4,6 @@ namespace ECS.Game.Components.TheDeeperComponent
 {
     public struct SetRotationComponent
     {
-        public Vector3 Eugle;
+        public float deltaAngle;
     }
 }

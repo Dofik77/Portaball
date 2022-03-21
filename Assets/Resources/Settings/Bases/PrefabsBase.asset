@@ -22,8 +22,8 @@ MonoBehaviour:
   - Name: Portal-Default
     GameObject: {fileID: 2734896531528817294, guid: 8c01a5ad06c5f61429b621b5745bc326, type: 3}
   - Name: Red
-    GameObject: {fileID: 7149559285786118066, guid: 8ff46b03ed31705419aef1b7384e3698, type: 3}
+    GameObject: {fileID: 5001003090399505857, guid: 537591271db848d4b9c38766ee7775d3, type: 3}
   - Name: Green
-    GameObject: {fileID: 7759309113025264007, guid: fb25eef080eeb124ca06a8aafa3295fb, type: 3}
+    GameObject: {fileID: 1200433202038382720, guid: 17744704439911a408ee42a0606aabe9, type: 3}
   - Name: Blue
     GameObject: {fileID: 6956774315211223950, guid: d1e8ed0e297ce524a8f60da2d51aff53, type: 3}

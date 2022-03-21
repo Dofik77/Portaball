@@ -22,8 +22,8 @@ namespace ECS.Game.Systems
         {
             var point = _getPointFromScene.GetPoint("Camera");
             entity.Get<LinkComponent>().View.Transform.position = point.position;
-            entity.Get<LinkComponent>().View.Transform.rotation = 
-                Quaternion.Euler(new Vector3(0f, 180f, 0f));
+            // entity.Get<LinkComponent>().View.Transform.rotation = 
+            //     Quaternion.Euler(new Vector3(0f, 180f, 0f));
 
         }
     }

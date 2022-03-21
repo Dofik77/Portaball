@@ -35,7 +35,6 @@ namespace ECS.Utils.Extensions
             entity.Get<PrefabComponent>().Value = Enum.GetName(typeof(PortalComponent.PortalColor), portalColor);
             entity.Get<EventAddComponent<PrefabComponent>>();
             
-            entity.Get<SetPositionComponent>();
             entity.Get<UIdComponent>().Value = UidGenerator.Next();
             
             return entity;
