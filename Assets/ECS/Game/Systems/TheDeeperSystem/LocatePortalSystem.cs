@@ -80,8 +80,6 @@ namespace ECS.Game.Systems
                 {
                     var dragPos = _eventInputHoldAndDragComponent.Get1(holdAndDrag).Drag;
                     var downPos = _eventInputHoldAndDragComponent.Get1(holdAndDrag).Down;
-                    
-                    Debug.Log("InDragCycle");
 
                     var angle = Vector2.SignedAngle(downPos, dragPos);
                     
@@ -118,14 +116,8 @@ namespace ECS.Game.Systems
         private PortalComponent.PortalColor GetColorFromWall(RaycastHit raycastHit)
         {
             if (raycastHit.transform.gameObject.TryGetComponent(out WallView wallView))
-            {
                 _wallColor = (PortalComponent.PortalColor) wallView.color;
-            }
-            else
-            {
-                //uncolerd - if wall hane not opporunity set portal or check over border 
-                //exception - if stf don't have any color
-            }
+            
             return _wallColor;
         }
         

@@ -47,7 +47,7 @@ namespace ECS.Game.Systems
             foreach (var i in _sphere)
             {
                 var sphereView = _sphere.Get2(i).View as SphereCharacterView;
-                var exitPortalView = exitPortalEntity.Get<LinkComponent>().View;
+                var exitPortalView = (PortalView) exitPortalEntity.Get<LinkComponent>().View;
 
                 if (sphereView != null)
                 {
@@ -55,18 +55,18 @@ namespace ECS.Game.Systems
 
                     var sphereTransform = sphereView.rigidbody.transform;
                     var exitPortalTransform = exitPortalView.Transform;
-                    var exitPortalPoint = exitPortalTransform.GetChild(0);  
+                    var exitPortalPoint = exitPortalView._pointToLocate.transform;
 
                     sphereTransform.position =
                         exitPortalPoint.position;
 
-                    // sphereTransform.rotation = 
-                    //     exitPortalTransform.rotation;
-                    //sphere.engel - portal.system + portal2.system
-                    //do letter
+                     sphereTransform.rotation = 
+                         exitPortalTransform.rotation;
+                    // sphere.engel - portal.system + portal2.system
+                    // do letter
 
-                    // sphereView.rigidbody.velocity =
-                    //     sphereVelocity;
+                     sphereView.rigidbody.velocity =
+                         sphereVelocity;
                 }
             }
         }
