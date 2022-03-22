@@ -33,7 +33,6 @@ namespace ECS.Game.Systems
         public void Init()
         {
             if (LoadGame()) return;
-            CreateLevel();
             CreatePlayer();
             CreateCamera();
             CreatePotal();
@@ -100,7 +99,7 @@ namespace ECS.Game.Systems
 
         private bool LoadGame()
         {
-            _world.NewEntity().Get<GameStageComponent>().Value = EGameStage.Pause;
+            _world.NewEntity().Get<GameStageComponent>().Value = EGameStage.Play;
             var gState = _generalState.GetData();
             if (gState.SaveState.IsNullOrEmpty()) return false;
             foreach (var state in gState.SaveState)
@@ -110,19 +109,7 @@ namespace ECS.Game.Systems
             }
             return true;
         }
-
-        private void CreateLevel()
-        {
-            var leveRoot = GameObject.Find("[LOCATE]");
-            var playerData = _playerData.GetData();
-            if (playerData.Level > 1)
-                playerData.Level = 2;
-            leveRoot.transform.GetChild(0).gameObject.SetActive(true);
-            playerData.Level++;
-            _playerData.Save(playerData);
-        }
         
-
         private void CreateTimer()
         {
             var entity = _world.NewEntity();

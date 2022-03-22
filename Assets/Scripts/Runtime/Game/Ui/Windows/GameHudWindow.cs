@@ -1,4 +1,4 @@
-﻿using Game.Ui.InGameMenu;
+﻿using Runtime.Game.Ui.Windows.InGameButtons;
 using Runtime.Game.Ui.Windows.TouchPad;
 using SimpleUi;
 
@@ -9,7 +9,7 @@ namespace Runtime.Game.Ui
         public override string Name => nameof(GetType);
         protected override void AddControllers()
         {
-            AddController<InGameMenuViewController>();
+            AddController<InGameButtonsController>();
             AddController<TouchpadViewController>();
         }
     }

@@ -5,6 +5,7 @@
         Play,
         Pause,
         DayEnd,
-        GameEnd
+        GameEnd,
+        Complete
     }
 }

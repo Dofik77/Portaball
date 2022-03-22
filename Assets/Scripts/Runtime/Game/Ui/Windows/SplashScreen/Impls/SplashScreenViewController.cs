@@ -18,13 +18,7 @@ namespace Game.Ui.SplashScreen.Impls
         
         public void Initialize()
         {
-            _sceneLoadingManager.LoadScene(EScene.Game.ToString());
-        }
-
-        private void OnComplete()
-        {
-            _disposable.Dispose();
-            _sceneLoadingManager.LoadScene(EScene.MainMenu.ToString());
+            _sceneLoadingManager.LoadScene(EScene.Game);
         }
     }
 }
