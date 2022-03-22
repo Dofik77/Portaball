@@ -96,7 +96,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PipeState: 0
-  _boxCollider: {fileID: 4226257200812446174}
+  BoxCollider: {fileID: 0}
 --- !u!65 &4226257200812446174
 BoxCollider:
   m_ObjectHideFlags: 0

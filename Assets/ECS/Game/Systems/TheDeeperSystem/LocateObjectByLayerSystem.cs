@@ -12,7 +12,7 @@ using UnityEngine;
 
 namespace ECS.Game.Systems
 {
-    public class LocatePortalSystem : IEcsUpdateSystem
+    public class LocateObjectByLayerSystem : IEcsUpdateSystem
     {
         private readonly EcsFilter<EventInputHoldAndDragComponent> _eventInputHoldAndDragComponent; // Press
         private readonly EcsFilter<EventInputDownComponent> _eventInputDownComponent; // Down
@@ -32,7 +32,8 @@ namespace ECS.Game.Systems
         private Vector2 _prevPos;
         private Vector2 _downPos;
 
-        private readonly LayerMask _defaultLayerMask = LayerMask.GetMask("Wall");
+        private readonly LayerMask _wallLayerMask = LayerMask.GetMask("Wall");
+        private readonly LayerMask _pipeLayerMask = LayerMask.GetMask("Pipe");
         private readonly LayerMask _portalLayerMask = LayerMask.GetMask("Portal");
 
         public void Run()
@@ -46,9 +47,8 @@ namespace ECS.Game.Systems
             foreach (var downInput in _eventInputDownComponent) 
             {
                 _downPos = _eventInputDownComponent.Get1(downInput).Down;
-                Debug.Log("LocateSystem");
 
-                if (GetPointInWorldSpace(out Vector3 locatePoint, out RaycastHit raycastHit, _defaultLayerMask, _downPos))
+                if (GetPointInWorldSpace(out Vector3 locatePoint, out RaycastHit raycastHit, _wallLayerMask, _downPos))
                 {
                     _wallColor = GetColorFromWall(raycastHit);
                     
@@ -100,17 +100,24 @@ namespace ECS.Game.Systems
             }
         }
 
-    private bool GetPointInWorldSpace(out Vector3 locatePoint, out RaycastHit raycastHit,
-            LayerMask targetLayer, Vector3 inputPos)
+        private void InstantiatePlayer()
         {
-            var actualCamera = GetCameraFromFilter();
-            var ray = actualCamera.ScreenPointToRay(inputPos);
-            var hasHit = Physics.Raycast(ray, out raycastHit,100f,targetLayer);
             
-            locatePoint = raycastHit.point;
-            
-            return hasHit;
         }
+        
+        // private bool GetLayerInWorldSpace()
+        
+        private bool GetPointInWorldSpace(out Vector3 locatePoint, out RaycastHit raycastHit,
+                LayerMask targetLayer, Vector3 inputPos)
+            {
+                var actualCamera = GetCameraFromFilter();
+                var ray = actualCamera.ScreenPointToRay(inputPos);
+                var hasHit = Physics.Raycast(ray, out raycastHit,100f,targetLayer);
+                
+                locatePoint = raycastHit.point;
+                
+                return hasHit;
+            }
 
         private PortalComponent.PortalColor GetColorFromWall(RaycastHit raycastHit)
         {

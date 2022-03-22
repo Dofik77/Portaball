@@ -43,7 +43,7 @@ namespace ECS.Installers
             Container.BindInterfacesAndSelfTo<PipeSystem>().AsSingle();
             Container.BindInterfacesAndSelfTo<PortalSystem>().AsSingle();
             //Container.BindInterfacesAndSelfTo<LaunchSpherePlayerSystem>().AsSingle();
-            Container.BindInterfacesAndSelfTo<LocatePortalSystem>().AsSingle();
+            Container.BindInterfacesAndSelfTo<LocateObjectByLayerSystem>().AsSingle();
             // Container.BindInterfacesAndSelfTo<PlayerRootMoveSystem>().AsSingle();
             // Container.BindInterfacesAndSelfTo<MoveRotateToTargetSystem>().AsSingle();
             // Container.BindInterfacesAndSelfTo<RemapOnAddSystem>().AsSingle();

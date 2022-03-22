@@ -44,13 +44,12 @@ namespace ECS.Game.Systems
 
         private void InstantiatePlayer()
         {
-            foreach (var downInput in _eventInputDownComponent)
+            if (TryGetPipePointInWorldSpace(out RaycastHit raycastHit, _pipeLayerMask, _downPos))
             {
-                Debug.Log("InstSystem");
-                _downPos = _eventInputDownComponent.Get1(downInput).Down;
-                
-                if (TryGetPipePointInWorldSpace(out RaycastHit raycastHit, _pipeLayerMask, _downPos))
+                foreach (var downInput in _eventInputDownComponent)
                 {
+                    _downPos = _eventInputDownComponent.Get1(downInput).Down;
+                    
                      _pipeView = GetViewFromPipe(raycastHit);
                      _pipeView.BoxCollider.enabled = false;
                      
@@ -61,8 +60,16 @@ namespace ECS.Game.Systems
                      
                      _sphereView.transform.position = _spawnPoint.position;
                      _sphereView.transform.rotation = Quaternion.Euler(0,180,0);
+                     _eventInputDownComponent.GetEntity(downInput).Del<EventInputDownComponent>();
                 }
-                _eventInputDownComponent.GetEntity(downInput).Del<EventInputDownComponent>();
+            }
+
+            else
+            {
+                foreach (var downInput in _eventInputDownComponent)
+                {
+                    _eventInputDownComponent.GetEntity(downInput).Del<EventInputDownComponent>();
+                }
             }
             
             foreach (var inputUp in _eventInputUpComponent)
