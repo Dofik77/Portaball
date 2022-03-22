@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 5617712983431246805}
   - component: {fileID: 7643408428560549663}
   - component: {fileID: 6020489066503613130}
-  - component: {fileID: 6371723792142569561}
-  m_Layer: 0
+  - component: {fileID: 4226257200812446174}
+  m_Layer: 6
   m_Name: Tube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -96,7 +96,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PipeState: 0
---- !u!65 &6371723792142569561
+  _boxCollider: {fileID: 4226257200812446174}
+--- !u!65 &4226257200812446174
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -107,5 +108,5 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.41820133, y: 0.06510296, z: 0.17297868}
-  m_Center: {x: -0.014694606, y: 0.59169877, z: 0.000000049670536}
+  m_Size: {x: 0.51001614, y: 0.94291747, z: 0.48403427}
+  m_Center: {x: 0.0012722859, y: 0.23722409, z: 0.01055402}

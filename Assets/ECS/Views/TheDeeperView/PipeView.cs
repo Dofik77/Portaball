@@ -11,6 +11,7 @@ namespace ECS.Views.Impls
     public class PipeView : LinkableView
     {
         [SerializeField] public PipeComponent.PipeState PipeState;
+        [SerializeField] public BoxCollider BoxCollider;
         public event Action<PipeView> OnSphereTrigger;
         
         private void OnTriggerEnter(Collider other)

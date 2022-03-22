@@ -12,7 +12,7 @@ namespace ECS.Game.Systems
     public class PipeSystem : ReactiveSystem<EventAddComponent<PipeComponent>>
     {
         protected override EcsFilter<EventAddComponent<PipeComponent>> ReactiveFilter { get; }
-        private EcsFilter<SphereCharacterComponent, LinkComponent> _sphere;
+        private EcsFilter<SpherePlayerComponent, LinkComponent> _sphere;
         protected override void Execute(EcsEntity entity)
         {
             PipeView pipeView = entity.Get<LinkComponent>().View as PipeView;
@@ -25,7 +25,7 @@ namespace ECS.Game.Systems
             {
                 foreach (var i in _sphere)
                 {
-                    var sphereView = _sphere.Get2(i).View as SphereCharacterView;
+                    var sphereView = _sphere.Get2(i).View as SpherePlayerView;
                     sphereView.gameObject.SetActive(false);
                     //прописать логику вызова VIEW при попадании в трубу 
                 }

@@ -18,7 +18,7 @@ namespace ECS.Game.Systems
         [Inject] private readonly GetPointFromScene _getPointFromScene;
         protected override EcsFilter <EventAddComponent<PortalComponent>> ReactiveFilter { get; }
         private EcsFilter<PortalComponent> _portals;
-        private EcsFilter<SphereCharacterComponent, LinkComponent> _sphere;
+        private EcsFilter<SpherePlayerComponent, LinkComponent> _sphere;
         private EcsFilter<ActivePortalComponent> _activeComponent;
         
         protected override void Execute(EcsEntity entity)
@@ -46,7 +46,7 @@ namespace ECS.Game.Systems
         {
             foreach (var i in _sphere)
             {
-                var sphereView = _sphere.Get2(i).View as SphereCharacterView;
+                var sphereView = _sphere.Get2(i).View as SpherePlayerView;
                 var exitPortalView = (PortalView) exitPortalEntity.Get<LinkComponent>().View;
 
                 if (sphereView != null)

@@ -10,15 +10,15 @@ using Zenject;
 
 namespace ECS.Game.Systems
 {
-    public class PlayerSystem : ReactiveSystem<EventAddComponent<SphereCharacterComponent>>
+    public class PlayerSystem : ReactiveSystem<EventAddComponent<SpherePlayerComponent>>
     {
-        protected override EcsFilter<EventAddComponent<SphereCharacterComponent>> ReactiveFilter { get; }
+        protected override EcsFilter<EventAddComponent<SpherePlayerComponent>> ReactiveFilter { get; }
         //filtr for tap on pipe
         [Inject] private readonly GetPointFromScene _getPointFromScene;
         protected override void Execute(EcsEntity entity)
         {
             var point = _getPointFromScene.GetPoint("Player");
-            var sphereView = (SphereCharacterView) entity.Get<LinkComponent>().View;
+            var sphereView = (SpherePlayerView) entity.Get<LinkComponent>().View;
             sphereView.Transform.position = point.position; 
             sphereView.transform.rotation = Quaternion.Euler(0,180,0);
         }

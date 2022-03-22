@@ -32,7 +32,7 @@ namespace ECS.Game.Systems
         private Vector2 _prevPos;
         private Vector2 _downPos;
 
-        private readonly LayerMask _defaultLayerMask = LayerMask.GetMask("Default");
+        private readonly LayerMask _defaultLayerMask = LayerMask.GetMask("Wall");
         private readonly LayerMask _portalLayerMask = LayerMask.GetMask("Portal");
 
         public void Run()
@@ -46,6 +46,7 @@ namespace ECS.Game.Systems
             foreach (var downInput in _eventInputDownComponent) 
             {
                 _downPos = _eventInputDownComponent.Get1(downInput).Down;
+                Debug.Log("LocateSystem");
 
                 if (GetPointInWorldSpace(out Vector3 locatePoint, out RaycastHit raycastHit, _defaultLayerMask, _downPos))
                 {
@@ -82,8 +83,6 @@ namespace ECS.Game.Systems
                     var downPos = _eventInputHoldAndDragComponent.Get1(holdAndDrag).Down;
 
                     var angle = Vector2.SignedAngle(downPos, dragPos);
-                    
-                    Debug.Log(angle);
 
                     _inActionPortal.GetEntity(inActionPortal).Get<SetRotationComponent>().deltaAngle =
                         angle;

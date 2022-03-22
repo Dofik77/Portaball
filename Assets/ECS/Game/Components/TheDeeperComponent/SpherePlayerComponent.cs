@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace ECS.Game.Components.Flags
 {
-    public struct SphereCharacterComponent : IEcsIgnoreInFilter
+    public struct SpherePlayerComponent : IEcsIgnoreInFilter
     {
        
     }
