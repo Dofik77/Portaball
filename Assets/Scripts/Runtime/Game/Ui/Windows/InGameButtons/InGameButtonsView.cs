@@ -17,7 +17,7 @@ namespace Runtime.Game.Ui.Windows.InGameButtons
         [SerializeField] public Image JoystickOrigin;
         [SerializeField] private TMP_Text _levelN;
         [SerializeField] public CustomButton InGameMenuButton;
-        // [SerializeField] private //restart button
+        [SerializeField] public CustomButton RestartGameButton;
 
         // [SerializeField] private TMP_Text _score;
         // [SerializeField] private TMP_Text _highScore;

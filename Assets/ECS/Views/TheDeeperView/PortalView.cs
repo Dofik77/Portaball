@@ -16,7 +16,7 @@ namespace ECS.Views.Impls
         [SerializeField] public GameObject _pointToLocate;
         public event Action<Uid, PortalComponent.PortalColor> OnSphereTrigger;
 
-        private void OnTriggerEnter(Collider other)
+        private void OnTriggerStay(Collider other)
         {
             if (other.gameObject.CompareTag("Sphere"))
             {

@@ -1,7 +1,12 @@
-﻿namespace ECS.Game.Systems
+﻿using ECS.Game.Systems.GameCycle;
+using Leopotam.Ecs;
+
+namespace ECS.Game.Systems
 {
     public class LaunchSphereSystem
     {
-        //logic sphere spawn 
+        private readonly EcsFilter<EventInputDownComponent> _eventInputDownComponent; 
+        
+        private readonly EcsWorld _world;
     }
 }

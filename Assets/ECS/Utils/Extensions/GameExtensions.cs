@@ -25,6 +25,15 @@ namespace ECS.Utils.Extensions
             entity.Get<EventAddComponent<PrefabComponent>>();
             return entity;
         }
+        
+        private static void CreatePlayer(this EcsWorld world)
+        {
+            var entity = world.NewEntity();
+            entity.Get<SphereCharacterComponent>();
+            entity.Get<PrefabComponent>().Value = "Character";
+            entity.Get<EventAddComponent<PrefabComponent>>();
+            entity.Get<EventAddComponent<SphereCharacterComponent>>();
+        }
 
         public static EcsEntity CreatePortal(this EcsWorld world, PortalComponent.PortalColor portalColor)
         {
