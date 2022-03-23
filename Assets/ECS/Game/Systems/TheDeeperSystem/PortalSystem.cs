@@ -54,9 +54,9 @@ namespace ECS.Game.Systems
                     var sphereVelocity = sphereView.rigidbody.velocity;
 
                     var sphereTransform = sphereView.rigidbody.transform;
-                    var exitPortalTransform = exitPortalView.Transform;
+                    var exitPortalTransform = exitPortalView.transform;
                     var exitPortalPoint = exitPortalView._pointToLocate.transform;
-
+                    
                     sphereTransform.position =
                         exitPortalPoint.position;
 

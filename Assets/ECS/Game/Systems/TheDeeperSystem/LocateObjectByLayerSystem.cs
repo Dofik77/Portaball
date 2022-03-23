@@ -62,7 +62,7 @@ namespace ECS.Game.Systems
                                 _activePortal.GetEntity(activePortal).Get<IsDestroyedComponent>();
                         }
                     
-                        var newPosition = new Vector3(locatePoint.x, locatePoint.y, locatePoint.z - 1.31f);
+                        var newPosition = new Vector3(locatePoint.x, locatePoint.y, locatePoint.z - 0.51f);
                     
                         _newPortal.Get<ActivePortalComponent>();
                         _newPortal.Get<InActionPortalComponent>();
