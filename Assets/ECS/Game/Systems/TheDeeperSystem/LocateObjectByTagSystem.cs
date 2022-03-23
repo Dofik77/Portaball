@@ -16,6 +16,8 @@ namespace ECS.Game.Systems
 {
     public class LocateObjectByTagSystem : IEcsUpdateSystem
     {
+        [Inject] private readonly GetPointFromScene _getPointFromScene;
+        
         private readonly EcsFilter<EventInputHoldAndDragComponent> _eventInputHoldAndDragComponent; // Press
         private readonly EcsFilter<EventInputDownComponent> _eventInputDownComponent; // Down
         private readonly EcsFilter<EventInputUpComponent> _eventInputUpComponent; // Up
@@ -24,8 +26,6 @@ namespace ECS.Game.Systems
         
         private readonly EcsFilter<PortalComponent, LinkComponent, ActivePortalComponent> _activePortal;
         private readonly EcsFilter<InActionPortalComponent, LinkComponent> _inActionPortal;
-
-        [Inject] private readonly GetPointFromScene _getPointFromScene;
         
         private readonly EcsWorld _world;
         
@@ -80,20 +80,20 @@ namespace ECS.Game.Systems
                     
                     else if (objectTag == "Pipe")
                     {
-                        _downPos = _eventInputDownComponent.Get1(downInput).Down;
-                    
                         _pipeView = GetViewFromPipe(raycastHit);
-                        _pipeView.gameObject.tag = "DeactivePipe";
+                        
+                        if (_pipeView.PipeState == PipeComponent.PipeState.Enter)
+                        {
+                            _pipeView.gameObject.tag = "DeactivePipe";
                      
-                        _playerEntity = GetPlayer();
+                            _playerEntity = GetPlayer();
                         
-                        _spawnPoint = _getPointFromScene.GetPoint("Player");
-                        _newPortal.Get<SetPositionComponent>().position = _spawnPoint.transform.position;
-                        
-                        _eventInputDownComponent.GetEntity(downInput).Del<EventInputDownComponent>();
+                            _spawnPoint = _getPointFromScene.GetPoint("Player");
+                            _playerEntity.Get<SetPositionComponent>().position = _spawnPoint.transform.position;
+                        }
+                       
                     }
                 }
-                
                 _eventInputDownComponent.GetEntity(downInput).Del<EventInputDownComponent>();
             }
         }
@@ -104,7 +104,8 @@ namespace ECS.Game.Systems
                 
             var ray = _actualCamera.ScreenPointToRay(inputPos);
             var hasHit = Physics.Raycast(ray, out raycastHit,100f);
-                
+            
+            Debug.Log(raycastHit.transform.gameObject.name);
             locatePoint = raycastHit.point;
             
             switch (raycastHit.transform.gameObject.tag)
@@ -131,7 +132,7 @@ namespace ECS.Game.Systems
                 {
                     var dragPos = _eventInputHoldAndDragComponent.Get1(holdAndDrag).Drag;
                     var downPos = _eventInputHoldAndDragComponent.Get1(holdAndDrag).Down;
-
+                    
                     var angle = Vector2.SignedAngle(downPos, dragPos);
 
                     _inActionPortal.GetEntity(inActionPortal).Get<SetRotationComponent>().deltaAngle =
