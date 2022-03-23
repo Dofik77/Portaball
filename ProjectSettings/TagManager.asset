@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Sphere
   - Pipe
+  - Portal
+  - Wall
   layers:
   - Default
   - TransparentFX

@@ -7,12 +7,14 @@ using ECS.Game.Components.TheDeeperComponent;
 using ECS.Game.Systems.GameCycle;
 using ECS.Utils.Extensions;
 using ECS.Views.Impls;
+using Game.Utils.MonoBehUtils;
 using Leopotam.Ecs;
 using UnityEngine;
+using Zenject;
 
 namespace ECS.Game.Systems
 {
-    public class LocateObjectByLayerSystem : IEcsUpdateSystem
+    public class LocateObjectByTagSystem : IEcsUpdateSystem
     {
         private readonly EcsFilter<EventInputHoldAndDragComponent> _eventInputHoldAndDragComponent; // Press
         private readonly EcsFilter<EventInputDownComponent> _eventInputDownComponent; // Down
@@ -23,6 +25,8 @@ namespace ECS.Game.Systems
         private readonly EcsFilter<PortalComponent, LinkComponent, ActivePortalComponent> _activePortal;
         private readonly EcsFilter<InActionPortalComponent, LinkComponent> _inActionPortal;
 
+        [Inject] private readonly GetPointFromScene _getPointFromScene;
+        
         private readonly EcsWorld _world;
         
         private EcsEntity _newPortal;
@@ -31,46 +35,92 @@ namespace ECS.Game.Systems
         private float _deltaPos;
         private Vector2 _prevPos;
         private Vector2 _downPos;
-
-        private readonly LayerMask _wallLayerMask = LayerMask.GetMask("Wall");
-        private readonly LayerMask _pipeLayerMask = LayerMask.GetMask("Pipe");
-        private readonly LayerMask _portalLayerMask = LayerMask.GetMask("Portal");
+        private Camera _actualCamera;
+        
+        private SpherePlayerView _sphereView;
+        private EcsEntity _playerEntity;
+        private Transform _spawnPoint;
+        private PipeView _pipeView;
 
         public void Run()
         {
-            LocatePortal();
+            TryGetObjectInWorldSpace();
             DragPortal();
         }
-    
-        private void LocatePortal()
+        
+        private void TryGetObjectInWorldSpace()
         {
-            foreach (var downInput in _eventInputDownComponent) 
+            foreach (var downInput in _eventInputDownComponent)
             {
                 _downPos = _eventInputDownComponent.Get1(downInput).Down;
 
-                if (GetPointInWorldSpace(out Vector3 locatePoint, out RaycastHit raycastHit, _wallLayerMask, _downPos))
+                if(GetTagFromPointInWorldSpace(out Vector3 locatePoint, out RaycastHit raycastHit, out string objectTag, _downPos))
                 {
-                    _wallColor = GetColorFromWall(raycastHit);
-                    
-                    if (_wallColor != PortalComponent.PortalColor.Default)
+                    if (objectTag == "Wall")
                     {
-                        _newPortal = CreateActualPortal(_wallColor);
-                        
-                        foreach (var activePortal in _activePortal)
+                        _wallColor = GetColorFromWall(raycastHit);
+
+                        if (_wallColor != PortalComponent.PortalColor.Default)
                         {
-                            if (_activePortal.Get1(activePortal).color == _newPortal.Get<PortalComponent>().color)
-                                _activePortal.GetEntity(activePortal).Get<IsDestroyedComponent>();
+                            _newPortal = CreateActualPortal(_wallColor);
+
+                            foreach (var activePortal in _activePortal)
+                            {
+                                if (_activePortal.Get1(activePortal).color == _newPortal.Get<PortalComponent>().color)
+                                    _activePortal.GetEntity(activePortal).Get<IsDestroyedComponent>();
+                            }
+
+                            var newPosition = new Vector3(locatePoint.x, locatePoint.y, locatePoint.z - 0.51f);
+
+                            _newPortal.Get<ActivePortalComponent>();
+                            _newPortal.Get<InActionPortalComponent>();
+                            _newPortal.Get<SetPositionComponent>().position = newPosition;
                         }
+                    }
                     
-                        var newPosition = new Vector3(locatePoint.x, locatePoint.y, locatePoint.z - 0.51f);
+                    else if (objectTag == "Pipe")
+                    {
+                        _downPos = _eventInputDownComponent.Get1(downInput).Down;
                     
-                        _newPortal.Get<ActivePortalComponent>();
-                        _newPortal.Get<InActionPortalComponent>();
-                        _newPortal.Get<SetPositionComponent>().position = newPosition;
+                        _pipeView = GetViewFromPipe(raycastHit);
+                        _pipeView.BoxCollider.enabled = false;
+                     
+                        _playerEntity = GetPlayer();
+                        
+                        _spawnPoint = _getPointFromScene.GetPoint("Player");
+                        _newPortal.Get<SetPositionComponent>().position = _spawnPoint.transform.position;
+                        
+                        _eventInputDownComponent.GetEntity(downInput).Del<EventInputDownComponent>();
                     }
                 }
+                
                 _eventInputDownComponent.GetEntity(downInput).Del<EventInputDownComponent>();
             }
+        }
+        
+        private bool GetTagFromPointInWorldSpace(out Vector3 locatePoint, out RaycastHit raycastHit, out string objectTag, Vector3 inputPos)
+        {
+            _actualCamera = GetCameraFromFilter();
+                
+            var ray = _actualCamera.ScreenPointToRay(inputPos);
+            var hasHit = Physics.Raycast(ray, out raycastHit,100f);
+                
+            locatePoint = raycastHit.point;
+            
+            switch (raycastHit.transform.gameObject.tag)
+            {
+                case "Wall" :
+                    objectTag = "Wall";
+                    break;
+                case "Pipe" :
+                    objectTag = "Pipe";
+                    break;
+                default:
+                    objectTag = "Default";
+                    break;
+            }
+                
+            return hasHit;
         }
         
         private void DragPortal()
@@ -99,25 +149,23 @@ namespace ECS.Game.Systems
                 _eventInputUpComponent.GetEntity(inputUp).Del<EventInputUpComponent>();
             }
         }
-
-        private void InstantiatePlayer()
+        
+        private PipeView GetViewFromPipe(RaycastHit raycastHit)
         {
+            var pipeGameObject = raycastHit.transform.gameObject;
+            _pipeView = pipeGameObject.GetComponent<PipeView>();
             
+            return _pipeView;
         }
         
-        // private bool GetLayerInWorldSpace()
-        
-        private bool GetPointInWorldSpace(out Vector3 locatePoint, out RaycastHit raycastHit,
-                LayerMask targetLayer, Vector3 inputPos)
-            {
-                var actualCamera = GetCameraFromFilter();
-                var ray = actualCamera.ScreenPointToRay(inputPos);
-                var hasHit = Physics.Raycast(ray, out raycastHit,100f,targetLayer);
-                
-                locatePoint = raycastHit.point;
-                
-                return hasHit;
-            }
+        private EcsEntity GetPlayer()
+        {
+            var player = _world.CreatePlayer();
+            
+            return player;
+        }
+
+       
 
         private PortalComponent.PortalColor GetColorFromWall(RaycastHit raycastHit)
         {
@@ -130,8 +178,7 @@ namespace ECS.Game.Systems
         private EcsEntity CreateActualPortal(PortalComponent.PortalColor portalColor)
         {
             var portal = _world.CreatePortal(portalColor);
-            portal.Get<InActionPortalComponent>();
-            
+
             return portal;
         }
 

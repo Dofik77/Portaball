@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 4226257200812446174}
   m_Layer: 6
   m_Name: Tube
-  m_TagString: Untagged
+  m_TagString: Pipe
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -96,7 +96,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PipeState: 0
-  BoxCollider: {fileID: 0}
+  BoxCollider: {fileID: 4226257200812446174}
 --- !u!65 &4226257200812446174
 BoxCollider:
   m_ObjectHideFlags: 0
