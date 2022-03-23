@@ -83,7 +83,7 @@ namespace ECS.Game.Systems
                         _downPos = _eventInputDownComponent.Get1(downInput).Down;
                     
                         _pipeView = GetViewFromPipe(raycastHit);
-                        _pipeView.BoxCollider.enabled = false;
+                        _pipeView.gameObject.tag = "DeactivePipe";
                      
                         _playerEntity = GetPlayer();
                         
@@ -164,9 +164,7 @@ namespace ECS.Game.Systems
             
             return player;
         }
-
-       
-
+        
         private PortalComponent.PortalColor GetColorFromWall(RaycastHit raycastHit)
         {
             if (raycastHit.transform.gameObject.TryGetComponent(out WallView wallView))

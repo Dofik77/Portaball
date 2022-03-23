@@ -33,7 +33,6 @@ namespace ECS.Game.Systems
         public void Init()
         {
             if (LoadGame()) return;
-            CreatePlayer();
             CreateCamera();
             CreatePotal();
             CreatePipes();
@@ -117,13 +116,13 @@ namespace ECS.Game.Systems
             entity.Get<UIdComponent>().Value = UidGenerator.Next();
         }
 
-        private void CreatePlayer()
-        {
-            var entity = _world.NewEntity();
-            entity.Get<SpherePlayerComponent>();
-            entity.Get<PrefabComponent>().Value = "Character";
-            entity.Get<EventAddComponent<PrefabComponent>>();
-            entity.Get<EventAddComponent<SpherePlayerComponent>>();
-        }
+        // private void CreatePlayer()
+        // {
+        //     var entity = _world.NewEntity();
+        //     entity.Get<SpherePlayerComponent>();
+        //     entity.Get<PrefabComponent>().Value = "Character";
+        //     entity.Get<EventAddComponent<PrefabComponent>>();
+        //     entity.Get<EventAddComponent<SpherePlayerComponent>>();
+        // }
     }
 }
