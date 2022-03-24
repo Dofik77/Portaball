@@ -10,25 +10,35 @@ namespace ECS.Game.Systems
     {
         private readonly EcsFilter<PortalComponent, LinkComponent, EffectActivationComponent, UIdComponent> _effectsFilter;
         private EcsFilter<PortalComponent, LinkComponent, UIdComponent> _portals;
+
+        private EcsEntity _portalWithEffectsComponentEntity;
+        private PortalView _portalWithEffectsComponentView;
+        private PortalComponent.PortalColor _portalColorWithEffectsComponent;
+        
+        private EcsEntity _portalEntity;
+        private PortalView _portalView;
+        private PortalComponent.PortalColor _portalColor;
+
         public void Run()
         {
             foreach (var effects in _effectsFilter)
             {
-                var portalWithEffectsEntity = _effectsFilter.GetEntity(effects);
-                var portalWithEffectsView = (PortalView) portalWithEffectsEntity.Get<LinkComponent>().View;
-                var portalColorWithEffects = portalWithEffectsView.color;
-                var id = portalWithEffectsEntity.Get<UIdComponent>().Value;
+                _portalWithEffectsComponentEntity = _effectsFilter.GetEntity(effects);
+                _portalColorWithEffectsComponent = _portalWithEffectsComponentEntity.Get<PortalComponent>().color;
+                _portalWithEffectsComponentView = (PortalView) _portalWithEffectsComponentEntity.Get<LinkComponent>().View;
+                
+                var id = _portalWithEffectsComponentEntity.Get<UIdComponent>().Value;
 
-                foreach (var portal in _portals)
+                foreach (var portal in _portals)    
                 {
-                    var portalEntity = _portals.GetEntity(portal);
-                    var portalView = (PortalView) portalEntity.Get<LinkComponent>().View;
-                    var portalColor = portalView.color;
+                    _portalEntity = _portals.GetEntity(portal);
+                    _portalView = (PortalView) _portalEntity.Get<LinkComponent>().View;
+                    _portalColor = _portalView.color;
 
-                    if (portalColorWithEffects == portalColor && id != portalEntity.Get<UIdComponent>().Value)
+                    if (_portalColorWithEffectsComponent == _portalColor && id != _portalEntity.Get<UIdComponent>().Value)
                     {
-                        portalWithEffectsView._portalEffect.SetActive(true);
-                        portalView._portalEffect.SetActive(true);
+                        _portalWithEffectsComponentView._portalEffect.SetActive(true);
+                        _portalView._portalEffect.SetActive(true);
                     }
                 }
             }
