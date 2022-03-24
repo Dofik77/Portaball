@@ -36,6 +36,16 @@ namespace ECS.Utils.Extensions
 
             return entity;
         }
+        
+        public static EcsEntity CreateProjectile(this EcsWorld world, Vector3 position)
+        {
+            var entity = world.NewEntity();
+            entity.Get<UIdComponent>().Value = UidGenerator.Next();
+            entity.Get<PrefabComponent>().Value = "SphereEffect";
+            entity.Get<PositionComponent>().Value = position;
+            
+            return entity;
+        }
 
         public static EcsEntity CreatePortal(this EcsWorld world, PortalComponent.PortalColor portalColor)
         {

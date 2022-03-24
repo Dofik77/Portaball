@@ -5,6 +5,7 @@ using ECS.Core.Utils.SystemInterfaces;
 using ECS.Game.Components;
 using ECS.Game.Components.Flags;
 using ECS.Game.Components.TheDeeperComponent;
+using ECS.Utils.Extensions;
 using ECS.Views.Impls;
 using Game.Utils.MonoBehUtils;
 using Leopotam.Ecs;
@@ -25,6 +26,9 @@ namespace ECS.Game.Systems
         private EcsFilter<ActivePortalComponent> _activeComponent;
 
         private PortalView _portalView;
+
+        private readonly EcsWorld _world;
+        private EcsEntity _sphereParticle;
         
         protected override void Execute(EcsEntity entity)
         {
@@ -88,13 +92,11 @@ namespace ECS.Game.Systems
                     sphereTransform.position =
                         exitPortalPoint.position; //Poscomp
 
-                     // sphereTransform.rotation.z = 
-                     //     exitPortalTransform.rotation.z; //Rotcomp
-                     
-                     sphereView.Rigidbody.velocity =
+                    sphereView.Rigidbody.velocity =
                          newSphereVelocity;
 
-                     sphereView.TeleportationEffect.Play();
+                     //_sphereParticle = _world.CreateProjectile(sphereTransform.position);
+                    
                 }
             }
         }
