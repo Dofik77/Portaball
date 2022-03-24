@@ -7,6 +7,7 @@ namespace ECS.Views.Impls
     public class SpherePlayerView : LinkableView
     {
         [SerializeField] private Animator _animator;
-        [SerializeField] public Rigidbody rigidbody;
+        [SerializeField] public Rigidbody Rigidbody;
+        [SerializeField] public ParticleSystem TeleportationEffect;
     }
 }

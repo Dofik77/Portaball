@@ -48,6 +48,7 @@ namespace ECS.Game.Systems
             }
         }
 
+        //TODO SRP
         private void TeleportSphere(EcsEntity exitPortalEntity, Transform enterPortalTransform)
         {
             foreach (var i in _sphere)
@@ -57,15 +58,18 @@ namespace ECS.Game.Systems
 
                 if (sphereView != null)
                 {
-                    var sphereVelocity = sphereView.rigidbody.velocity;
+                    var sphereVelocity = sphereView.Rigidbody.velocity;
 
-                    var enterPortalAngle = -enterPortalTransform.localEulerAngles +
-                                           exitPortalView.transform.localEulerAngles + new Vector3(0,0,180);
+                    // var enterPortalAngle = -enterPortalTransform.localEulerAngles +
+                    //                        exitPortalView.transform.localEulerAngles + new Vector3(0,0,180);
+                    
                     //разворот относительно нового портала ( инверсия поворота ) 
                     
                     // x1=x*cos(angle) - y*sin(angle); 
                     // y1=y*cos(angle) + x*sin(angle);
                     // разворот вектора - жесть 
+                    
+                    var enterPortalAngle = exitPortalView.transform.localEulerAngles + new Vector3(0,0,180);
                     
                     var newSphereVelocity = new Vector3();
                     
@@ -75,18 +79,22 @@ namespace ECS.Game.Systems
                     newSphereVelocity.y = sphereVelocity.y * Mathf.Cos(enterPortalAngle.z * Mathf.Deg2Rad) +
                                           sphereVelocity.x * Mathf.Sin(enterPortalAngle.z * Mathf.Deg2Rad);
 
-                    var sphereTransform = sphereView.rigidbody;
+                    var sphereTransform = sphereView.Rigidbody;
                     var exitPortalTransform = exitPortalView.transform;
                     var exitPortalPoint = exitPortalView._pointToLocate.transform;
                     
+                    //In Player System ( Maybe another ) 
+                    
                     sphereTransform.position =
-                        exitPortalPoint.position;
+                        exitPortalPoint.position; //Poscomp
 
-                     sphereTransform.rotation = 
-                         exitPortalTransform.rotation;
+                     // sphereTransform.rotation.z = 
+                     //     exitPortalTransform.rotation.z; //Rotcomp
                      
-                     sphereView.rigidbody.velocity =
+                     sphereView.Rigidbody.velocity =
                          newSphereVelocity;
+
+                     sphereView.TeleportationEffect.Play();
                 }
             }
         }

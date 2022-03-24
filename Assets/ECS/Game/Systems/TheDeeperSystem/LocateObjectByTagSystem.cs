@@ -49,6 +49,7 @@ namespace ECS.Game.Systems
             DragPortal();
         }
         
+        //TODO SRP
         private void TryGetObjectInWorldSpace()
         {
             foreach (var downInput in _eventInputDownComponent)
@@ -99,9 +100,7 @@ namespace ECS.Game.Systems
                 _eventInputDownComponent.GetEntity(downInput).Del<EventInputDownComponent>();
             }
         }
-        
-        
-        
+        //TODO SRP
         private bool GetTagFromPointInWorldSpace(out Vector3 locatePoint, out RaycastHit raycastHit, out string objectTag, Vector3 inputPos)
         {
             _actualCamera = GetCameraFromFilter();
@@ -127,7 +126,7 @@ namespace ECS.Game.Systems
                 
             return hasHit;
         }
-        
+        //TODO SRP
         private void DragPortal()
         {
             foreach (var holdAndDrag in _eventInputHoldAndDragComponent) // перенести
@@ -186,7 +185,7 @@ namespace ECS.Game.Systems
 
             return portal;
         }
-
+        //TODO SRP
         private Camera GetCameraFromFilter()
         {
             Camera actualCamera = null;
