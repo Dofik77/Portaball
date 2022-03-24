@@ -21,17 +21,7 @@ namespace ECS.Game.Systems
                 var portalView = (PortalView) _portalRotation.Get2(rotation).View;
                 var angle = _portalRotation.Get1(rotation).deltaAngle;
 
-                // portalView.transform.Rotate(portalView.transform.forward,
-                //     Vector2.Dot(angle, Vector2.right) * -1, Space.World);
-                
-                // rotationTo *= Quaternion.Euler((Vector3.forward.z * (angelToRotate)) * Time.deltaTime);
-                // portalView.transform.rotation = rotationTo;
-                
-                // var angelToRotate = new Vector3(0, 0, angle);
-                // portalView.transform.Rotate(angelToRotate  * Time.deltaTime);
-                
-                var angelToRotate = new Vector3(0, 0, angle);
-                portalView.transform.localEulerAngles += angelToRotate.normalized;
+                portalView.transform.rotation = Quaternion.Euler(0, 0, -angle);
 
                 _portalRotation.GetEntity(rotation).Del<SetRotationComponent>();
             }

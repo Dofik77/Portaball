@@ -16,6 +16,7 @@ namespace ECS.Game.Systems
 {
     public class LocateObjectByTagSystem : IEcsUpdateSystem
     {
+        
         [Inject] private readonly GetPointFromScene _getPointFromScene;
         
         private readonly EcsFilter<EventInputHoldAndDragComponent> _eventInputHoldAndDragComponent; // Press
@@ -74,6 +75,7 @@ namespace ECS.Game.Systems
 
                             _newPortal.Get<ActivePortalComponent>();
                             _newPortal.Get<InActionPortalComponent>();
+                            _newPortal.Get<EffectActivationComponent>();
                             _newPortal.Get<SetPositionComponent>().position = newPosition;
                         }
                     }
@@ -97,6 +99,8 @@ namespace ECS.Game.Systems
                 _eventInputDownComponent.GetEntity(downInput).Del<EventInputDownComponent>();
             }
         }
+        
+        
         
         private bool GetTagFromPointInWorldSpace(out Vector3 locatePoint, out RaycastHit raycastHit, out string objectTag, Vector3 inputPos)
         {
@@ -132,8 +136,10 @@ namespace ECS.Game.Systems
                 {
                     var dragPos = _eventInputHoldAndDragComponent.Get1(holdAndDrag).Drag;
                     var downPos = _eventInputHoldAndDragComponent.Get1(holdAndDrag).Down;
+
+                    var deltaDif = downPos - dragPos;
                     
-                    var angle = Vector2.SignedAngle(downPos, dragPos);
+                    var angle = Vector2.SignedAngle(deltaDif, Vector2.down);
 
                     _inActionPortal.GetEntity(inActionPortal).Get<SetRotationComponent>().deltaAngle =
                         angle;
