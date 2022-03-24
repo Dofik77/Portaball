@@ -50,6 +50,7 @@ namespace ECS.Installers
             // Container.BindInterfacesAndSelfTo<AddImpactToPlayerSystem>().AsSingle();
             Container.BindInterfacesAndSelfTo<PlayerInputSystem>().AsSingle();
             Container.BindInterfacesAndSelfTo<WallColoringSystem>().AsSingle();
+            Container.BindInterfacesAndSelfTo<EffectActivationSystem>().AsSingle();
             
             //tech system
             Container.BindInterfacesAndSelfTo<GamePauseSystem>().AsSingle();
