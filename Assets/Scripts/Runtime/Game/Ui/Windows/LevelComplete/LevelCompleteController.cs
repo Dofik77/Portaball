@@ -38,7 +38,7 @@ namespace Runtime.Game.Ui.Windows.LevelComplete
         
         private void OnNextLevel()
         {
-            // _sceneLoadingManager.LoadScene(_commonPlayerData.GetData().Level);
+            _sceneLoadingManager.LoadScene(_commonPlayerData.GetData().Level);
         }
 
         public override void OnShow()

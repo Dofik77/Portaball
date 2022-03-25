@@ -32,7 +32,7 @@ namespace ECS.Game.Systems.TheDeeperSystem
                 _particleEffectEntity = _particle.GetEntity(particle);
                 _particleView = (ParticleView) _particleEffectEntity.Get<LinkComponent>().View;
 
-                if (delay > 1f)
+                if (delay > 3f)
                 {
                     _particle.GetEntity(particle).Get<IsDestroyedComponent>();
                     delay = 0f;

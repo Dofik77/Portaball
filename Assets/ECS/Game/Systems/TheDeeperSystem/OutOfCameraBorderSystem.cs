@@ -50,7 +50,12 @@ namespace ECS.Game.Systems.TheDeeperSystem
             
             //TODO goodcase
             Vector3 screenPoint = _camera.WorldToViewportPoint(position);
-            bool onScreen = screenPoint.x > 0 && screenPoint.x < 1 && screenPoint.y > 0 && screenPoint.y < 1;
+            bool onScreen = screenPoint.x > 0 
+                            && screenPoint.x < 1 
+                            && screenPoint.y > 0 
+                            && screenPoint.y < 1;
+            
+            Debug.Log(screenPoint);
 
             return onScreen;
         }

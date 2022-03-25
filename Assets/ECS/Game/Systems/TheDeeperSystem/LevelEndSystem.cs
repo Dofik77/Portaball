@@ -49,40 +49,26 @@ namespace ECS.Game.Systems.GameCycle
         [SuppressMessage("ReSharper", "Unity.InefficientPropertyAccess")]
         private void HandleLevelComplete()
         {
-            // foreach (var i in _box)
+            // var data = _commonPlayerData.GetData();
+            // View.Show(data.Level);
+            // if (data.Level >= Enum.GetValues(typeof(EScene)).Cast<EScene>().Last())
             // {
-            //     var view = _box.Get2(i).Get<BoxView>();
-            //     var filler = _box.Get1(i).Filler == EBoxFiller.Filler_1 ? view.GetFiller1() : view.GetFiller2();
-            //     var fillerParticle = _box.Get1(i).Filler == EBoxFiller.Filler_1
-            //         ? view.GetFiller1Particle()
-            //         : view.GetFiller2Particle();
-            //     fillerParticle.gameObject.SetActive(true);
-            //     _vibrationService.Vibrate(420);
-            //     filler.DOMoveY(view.GetFillerTopHeight().position.y, 1.8f).SetEase(Ease.Linear).SetDelay(0.3f)
-            //         .OnComplete(() => moveBox());
-            //
-            //     void moveBox()
-            //     {
-            //         view.GetFront().GetComponent<MeshRenderer>().material =
-            //             new Material(view.GetLeft().GetComponent<MeshRenderer>().material);
-            //         var pos = _screenVariables.GetTransformPoint("BoxFinal").position;
-            //         _world.CreateParticle("ConfettiBlast", view.GetFillerTopHeight().position + Vector3.up, 1.5f);
-            //         view.GetLeft().DORotateQuaternion(view.GetLeftFinish().rotation, 0.3f).SetEase(Ease.Linear);
-            //         view.GetRight().DORotateQuaternion(view.GetRightFinish().rotation, 0.3f).SetEase(Ease.Linear)
-            //             .OnComplete(() =>
-            //             {
-            //                 foreach (var j in _putables)
-            //                     _putables.Get2(j).View.Transform.SetParent(view.Transform);
-            //             });
-            //         view.Transform.DOMove(pos, 0.3f)
-            //             .SetEase(Ease.Linear).SetDelay(0.3f)
-            //             .OnComplete(() =>
-            //             {
-            //                 _world.CreateParticle("ConfettiShower", pos + Vector3.up * 10 + Vector3.back * 4, 15f);
-            //                 _signalBus.OpenWindow<LevelCompleteWindow>();
-            //             });
-            //     }
+            //     data.Level = loopedLevel;
+            //     _analyticsService.SendRequest("last_level_complete");
             // }
+            // else
+            //     data.Level++;
+            // var rand = Random.Range(300, 600);
+            // data.Money += rand;
+            // _commonPlayerData.Save(data);
+            // View.Currency.text = (data.Money - rand).ToString();
+            // View.RewardValue.text = new StringBuilder("+").Append(rand).ToString();
+            // View.transform.DOMove(Vector3.zero, 0.7f).SetRelative(true).OnComplete(() => View.GetReward(data.Money));
+            
+            // cameraView.Transform.DOMoveY(0, 1.5f).SetEase(Ease.Linear).SetRelative(true).OnComplete(() =>
+            // {
+            //      _sceneLoadingManager.LoadScene(_commonPlayerData.GetData().Level);
+            // });
         }
 
         private void HandleLevelLose()
