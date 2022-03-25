@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 1223525210495225092}
   - component: {fileID: 8777913501290296848}
   m_Layer: 6
-  m_Name: 'Tube (Without colliders ) '
+  m_Name: 'TubeEnter (Without colliders ) '
   m_TagString: Pipe
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -97,6 +97,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PipeState: 0
   BoxCollider: {fileID: 8777913501290296848}
+  ParticleActivationPoint: {fileID: 0}
 --- !u!65 &8777913501290296848
 BoxCollider:
   m_ObjectHideFlags: 0

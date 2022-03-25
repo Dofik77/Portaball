@@ -6,7 +6,7 @@ using Leopotam.Ecs;
 
 namespace ECS.Game.Systems
 {
-    public class EffectActivationSystem : IEcsUpdateSystem
+    public class PortalEffectActivationSystem : IEcsUpdateSystem
     {
         private readonly EcsFilter<PortalComponent, LinkComponent, EffectActivationComponent, UIdComponent> _effectsFilter;
         private EcsFilter<PortalComponent, LinkComponent, UIdComponent> _portals;

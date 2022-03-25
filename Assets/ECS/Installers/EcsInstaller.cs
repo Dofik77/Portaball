@@ -3,6 +3,7 @@ using ECS.Game.Systems.GameCycle;
 using ECS.Game.Systems.GameDay;
 using ECS.Game.Systems.Linked;
 using ECS.Game.Systems.Move;
+using ECS.Game.Systems.TheDeeperSystem;
 using Game.Utils.MonoBehUtils;
 using Leopotam.Ecs;
 using Runtime.DataBase.Objects.Impl;
@@ -33,30 +34,30 @@ namespace ECS.Installers
             Container.BindInterfacesAndSelfTo<IsAvailableSetViewSystem>().AsSingle();
             Container.BindInterfacesAndSelfTo<GameInitializeSystem>().AsSingle();
             Container.BindInterfacesAndSelfTo<InstantiateSystem>().AsSingle();
-            //Container.BindInterfacesAndSelfTo<PositionRotationTranslateSystem>().AsSingle();
             Container.BindInterfacesAndSelfTo<GameTimerSystem>().AsSingle();
             Container.BindInterfacesAndSelfTo<PositionSystem>().AsSingle();
             Container.BindInterfacesAndSelfTo<RotateSystem>().AsSingle();
+            
             //game process system
             Container.BindInterfacesAndSelfTo<CameraLocateSystem>().AsSingle();
             Container.BindInterfacesAndSelfTo<PlayerSystem>().AsSingle();
             Container.BindInterfacesAndSelfTo<PipeSystem>().AsSingle();
             Container.BindInterfacesAndSelfTo<PortalSystem>().AsSingle();
             Container.BindInterfacesAndSelfTo<LocateObjectByTagSystem>().AsSingle();
-            // Container.BindInterfacesAndSelfTo<PlayerRootMoveSystem>().AsSingle();
-            // Container.BindInterfacesAndSelfTo<MoveRotateToTargetSystem>().AsSingle();
-            // Container.BindInterfacesAndSelfTo<RemapOnAddSystem>().AsSingle();
-            // Container.BindInterfacesAndSelfTo<PlayerModelMoveSideSystem>().AsSingle();
-            // Container.BindInterfacesAndSelfTo<AddImpactToPlayerSystem>().AsSingle();
             Container.BindInterfacesAndSelfTo<PlayerInputSystem>().AsSingle();
             Container.BindInterfacesAndSelfTo<WallColoringSystem>().AsSingle();
-            Container.BindInterfacesAndSelfTo<EffectActivationSystem>().AsSingle();
+            Container.BindInterfacesAndSelfTo<OutOfCameraBorderSystem>().AsSingle();
+            Container.BindInterfacesAndSelfTo<PortalEffectActivationSystem>().AsSingle();
+            Container.BindInterfacesAndSelfTo<ParticleControllSystem>().AsSingle();
+            Container.BindInterfacesAndSelfTo<PositionRotationTranslateSystem>().AsSingle();
+            
             
             //tech system
             Container.BindInterfacesAndSelfTo<GamePauseSystem>().AsSingle();
+            Container.BindInterfacesAndSelfTo<LevelEndSystem>().AsSingle();
             Container.BindInterfacesAndSelfTo<SaveGameSystem>().AsSingle();
             Container.BindInterfacesAndSelfTo<StartGameSystem>().AsSingle();
-            Container.BindInterfacesAndSelfTo<EndGameSystem>().AsSingle();
+            //Container.BindInterfacesAndSelfTo<EndGameSystem>().AsSingle();
             Container.BindInterfacesAndSelfTo<GameStageSystem>().AsSingle();        //always must been last
             Container.BindInterfacesAndSelfTo<CleanUpSystem>().AsSingle();          //must been latest than last!
         }       

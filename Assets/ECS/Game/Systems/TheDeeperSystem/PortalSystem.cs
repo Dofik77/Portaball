@@ -72,7 +72,7 @@ namespace ECS.Game.Systems
                     // x1=x*cos(angle) - y*sin(angle); 
                     // y1=y*cos(angle) + x*sin(angle);
                     // разворот вектора - жесть 
-                    
+                    //TODO goodcase
                     var enterPortalAngle = exitPortalView.transform.localEulerAngles + new Vector3(0,0,180);
                     
                     var newSphereVelocity = new Vector3();
@@ -95,7 +95,7 @@ namespace ECS.Game.Systems
                     sphereView.Rigidbody.velocity =
                          newSphereVelocity;
 
-                     //_sphereParticle = _world.CreateProjectile(sphereTransform.position);
+                     _world.CreateParticle(sphereTransform.position, new Quaternion(),"SphereEffect");
                     
                 }
             }

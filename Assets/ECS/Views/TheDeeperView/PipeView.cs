@@ -12,6 +12,8 @@ namespace ECS.Views.Impls
     {
         [SerializeField] public PipeComponent.PipeState PipeState;
         [SerializeField] public BoxCollider BoxCollider;
+        [SerializeField] public Transform ParticleActivationPoint;
+        
         public event Action<PipeView> OnSphereTrigger;
         
         private void OnTriggerEnter(Collider other)

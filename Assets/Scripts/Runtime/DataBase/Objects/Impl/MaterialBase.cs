@@ -3,7 +3,6 @@ using UnityEngine;
 
 namespace Runtime.DataBase.Objects.Impl
 {
-    [CreateAssetMenu(menuName = "Material/MaterialBase", fileName = "MaterialBase")]
     public class MaterialBase : ScriptableObject
     {
         [SerializeField] private Material[] _materials;

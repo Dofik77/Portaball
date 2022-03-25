@@ -37,13 +37,19 @@ namespace ECS.Utils.Extensions
             return entity;
         }
         
-        public static EcsEntity CreateProjectile(this EcsWorld world, Vector3 position)
+        public static EcsEntity CreateParticle(this EcsWorld world, Vector3 position, Quaternion rotation, string name)
         {
             var entity = world.NewEntity();
             entity.Get<UIdComponent>().Value = UidGenerator.Next();
-            entity.Get<PrefabComponent>().Value = "SphereEffect";
-            entity.Get<PositionComponent>().Value = position;
             
+            entity.Get<PrefabComponent>().Value = name;
+            entity.Get<EventAddComponent<PrefabComponent>>();
+            
+            entity.Get<ParticleComponent>();
+            entity.Get<SetPositionComponent>().position = position;
+
+            entity.Get<RotationComponent>().Value = rotation;
+
             return entity;
         }
 

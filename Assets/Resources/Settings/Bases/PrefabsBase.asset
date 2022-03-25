@@ -29,3 +29,5 @@ MonoBehaviour:
     GameObject: {fileID: 6956774315211223950, guid: d1e8ed0e297ce524a8f60da2d51aff53, type: 3}
   - Name: SphereEffect
     GameObject: {fileID: 3876697894967292103, guid: e639990da5653be4db5a61bdc75c265a, type: 3}
+  - Name: ConfettiParticle
+    GameObject: {fileID: 6039046686340658965, guid: 4ca6b2c4a4233d0499039e8452157323, type: 3}

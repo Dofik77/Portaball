@@ -94,6 +94,11 @@ namespace ECS.Game.Systems
                             _spawnPoint = _getPointFromScene.GetPoint("Player");
                             _playerEntity.Get<SetPositionComponent>().position = _spawnPoint.transform.position;
                         }
+
+                        else
+                        {
+                            return;
+                        }
                        
                     }
                 }

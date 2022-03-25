@@ -3,6 +3,7 @@ using ECS.Core.Utils.ReactiveSystem.Components;
 using ECS.Game.Components;
 using ECS.Game.Components.Flags;
 using ECS.Game.Components.TheDeeperComponent;
+using ECS.Utils.Extensions;
 using ECS.Views.Impls;
 using Leopotam.Ecs;
 using UnityEngine;
@@ -13,6 +14,8 @@ namespace ECS.Game.Systems
     {
         protected override EcsFilter<EventAddComponent<PipeComponent>> ReactiveFilter { get; }
         private EcsFilter<SpherePlayerComponent, LinkComponent> _sphere;
+
+        private EcsWorld _world;
         protected override void Execute(EcsEntity entity)
         {
             PipeView pipeView = entity.Get<LinkComponent>().View as PipeView;
@@ -27,7 +30,9 @@ namespace ECS.Game.Systems
                 {
                     var sphereView = _sphere.Get2(i).View as SpherePlayerView;
                     sphereView.gameObject.SetActive(false);
-                    //прописать логику вызова VIEW при попадании в трубу 
+
+                    _world.CreateParticle(pipeView.ParticleActivationPoint.position, Quaternion.Euler(-90f,0f,0f),
+                        "ConfettiParticle");
                 }
             }
         }

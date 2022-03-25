@@ -6,6 +6,7 @@
         Pause,
         DayEnd,
         GameEnd,
-        Complete
+        Complete,
+        Lose
     }
 }
