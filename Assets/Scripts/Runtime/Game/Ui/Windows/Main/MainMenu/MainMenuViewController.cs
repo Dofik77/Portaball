@@ -31,6 +31,6 @@ namespace Runtime.Game.Ui.Windows.MainMenu
         {
             View.NewGame.OnClickAsObservable().Subscribe(x => OnNewGame()).AddTo(View.NewGame);
         }
-        private void OnNewGame() => _sceneLoadingManager.LoadScene(EScene.Game);
+        private void OnNewGame() => _sceneLoadingManager.LoadScene(EScene.Game0_1);
     }
 }

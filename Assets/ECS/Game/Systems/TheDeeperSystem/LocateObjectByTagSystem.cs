@@ -113,7 +113,6 @@ namespace ECS.Game.Systems
             var ray = _actualCamera.ScreenPointToRay(inputPos);
             var hasHit = Physics.Raycast(ray, out raycastHit,100f);
             
-            Debug.Log(raycastHit.transform.gameObject.name);
             locatePoint = raycastHit.point;
             
             switch (raycastHit.transform.gameObject.tag)

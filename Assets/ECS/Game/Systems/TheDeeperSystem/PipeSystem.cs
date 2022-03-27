@@ -1,4 +1,5 @@
-﻿using ECS.Core.Utils.ReactiveSystem;
+﻿using DataBase.Game;
+using ECS.Core.Utils.ReactiveSystem;
 using ECS.Core.Utils.ReactiveSystem.Components;
 using ECS.Game.Components;
 using ECS.Game.Components.Flags;
@@ -33,6 +34,8 @@ namespace ECS.Game.Systems
 
                     _world.CreateParticle(pipeView.ParticleActivationPoint.position, Quaternion.Euler(-90f,0f,0f),
                         "ConfettiParticle");
+                    
+                    _world.SetStage(EGameStage.Complete);
                 }
             }
         }

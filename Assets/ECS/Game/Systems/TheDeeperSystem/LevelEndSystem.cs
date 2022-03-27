@@ -1,4 +1,7 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using System;
+using System.Diagnostics.CodeAnalysis;
+using System.Linq;
+using System.Text;
 using DataBase.Game;
 using DG.Tweening;
 using ECS.Core.Utils.ReactiveSystem;
@@ -8,6 +11,13 @@ using ECS.Game.Components.TheDeeperComponent;
 using ECS.Views.Impls;
 using Game.SceneLoading;
 using Leopotam.Ecs;
+using Runtime.Game.Ui.Windows.LevelComplete;
+using Runtime.Services.AnalyticsService;
+using Runtime.Services.CommonPlayerData;
+using Runtime.Services.CommonPlayerData.Data;
+using Runtime.Services.CommonPlayerData.Impl;
+using SimpleUi.Abstracts;
+using UnityEngine;
 using Zenject;
 #pragma warning disable 649
 namespace ECS.Game.Systems.GameCycle
@@ -17,7 +27,9 @@ namespace ECS.Game.Systems.GameCycle
     public class LevelEndSystem : ReactiveSystem<ChangeStageComponent>
     {
         // [Inject] private readonly ScreenVariables _screenVariables;
+        [Inject] private ICommonPlayerDataService<CommonPlayerData> _commonPlayerData;
         [Inject] private readonly SignalBus _signalBus;
+        // [Inject] private readonly IAnalyticsService _analyticsService;
 
         [Inject] private ISceneLoadingManager _sceneLoadingManager;
         // [Inject] private readonly IVibrationService _vibrationService;
@@ -49,26 +61,27 @@ namespace ECS.Game.Systems.GameCycle
         [SuppressMessage("ReSharper", "Unity.InefficientPropertyAccess")]
         private void HandleLevelComplete()
         {
-            // var data = _commonPlayerData.GetData();
-            // View.Show(data.Level);
-            // if (data.Level >= Enum.GetValues(typeof(EScene)).Cast<EScene>().Last())
-            // {
-            //     data.Level = loopedLevel;
-            //     _analyticsService.SendRequest("last_level_complete");
-            // }
-            // else
-            //     data.Level++;
-            // var rand = Random.Range(300, 600);
-            // data.Money += rand;
-            // _commonPlayerData.Save(data);
-            // View.Currency.text = (data.Money - rand).ToString();
-            // View.RewardValue.text = new StringBuilder("+").Append(rand).ToString();
-            // View.transform.DOMove(Vector3.zero, 0.7f).SetRelative(true).OnComplete(() => View.GetReward(data.Money));
+            var data = _commonPlayerData.GetData();
+
+            if (data.Level >= Enum.GetValues(typeof(EScene)).Cast<EScene>().Last())
+            {
+                data.Level = EScene.Game0_1;
+            }
+            else
+                data.Level++;
             
-            // cameraView.Transform.DOMoveY(0, 1.5f).SetEase(Ease.Linear).SetRelative(true).OnComplete(() =>
-            // {
-            //      _sceneLoadingManager.LoadScene(_commonPlayerData.GetData().Level);
-            // });
+            _commonPlayerData.Save(data);
+
+            foreach (var camera in _cameraF)
+            {
+                var cameraView = (CameraView) _cameraF.Get2(camera).View;
+                
+                cameraView.Transform.DOMoveY(0, 1.5f).SetEase(Ease.Linear).SetRelative(true).OnComplete(() =>
+                {
+                    Debug.Log((int)_commonPlayerData.GetData().Level);
+                    _sceneLoadingManager.LoadScene(_commonPlayerData.GetData().Level);
+                });
+            }
         }
 
         private void HandleLevelLose()

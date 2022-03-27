@@ -54,8 +54,6 @@ namespace ECS.Game.Systems.TheDeeperSystem
                             && screenPoint.x < 1 
                             && screenPoint.y > 0 
                             && screenPoint.y < 1;
-            
-            Debug.Log(screenPoint);
 
             return onScreen;
         }

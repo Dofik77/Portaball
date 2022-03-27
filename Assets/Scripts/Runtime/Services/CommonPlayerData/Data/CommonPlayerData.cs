@@ -8,5 +8,11 @@ namespace Runtime.Services.CommonPlayerData.Data
     {
         public EScene Level;
         public int coins;
+
+        public CommonPlayerData()
+        {
+            Level = EScene.Game0_1;
+            coins = 0;
+        }
     }
 }

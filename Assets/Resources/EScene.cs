@@ -1,1 +1,1 @@
-public enum EScene { SplashScene, LoadingScene, MainMenu, Game, }
+public enum EScene { SplashScene, LoadingScene, MainMenu, Game0_1, Game0_2, Game0__3, }
