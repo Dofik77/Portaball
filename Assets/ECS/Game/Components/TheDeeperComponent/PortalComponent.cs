@@ -9,10 +9,9 @@ namespace ECS.Game.Components.TheDeeperComponent
         public enum PortalColor
         {
             Red,
-            Blue,
-            Yellow,
-            Dark,
             Green,
+            Blue,
+            Purple,
             Default
         }
     }

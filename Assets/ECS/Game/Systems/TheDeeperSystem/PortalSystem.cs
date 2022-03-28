@@ -73,6 +73,7 @@ namespace ECS.Game.Systems
                     // y1=y*cos(angle) + x*sin(angle);
                     // разворот вектора - жесть 
                     //TODO goodcase
+                    
                     var enterPortalAngle = exitPortalView.transform.localEulerAngles + new Vector3(0,0,180);
                     
                     var newSphereVelocity = new Vector3();

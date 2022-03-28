@@ -6,10 +6,9 @@
         public enum WallColor
         {
             Red,
-            Blue,
-            Yellow,
-            Dark,
             Green,
+            Blue,
+            Purple,
             Default
         }
         //если добавить none - все сломается ( почему??? ) 

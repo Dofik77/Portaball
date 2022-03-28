@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: MaterialBase
   m_EditorClassIdentifier: 
   _materials:
+  - {fileID: 2100000, guid: 482bfc3fa89508d409c1d0150de13f2b, type: 2}
   - {fileID: 2100000, guid: 52640cc978ab3cf44b05a84f3f1460ae, type: 2}
   - {fileID: 2100000, guid: 9d7e871e235fddc4bb504e5cda48348d, type: 2}
-  - {fileID: 2100000, guid: 482bfc3fa89508d409c1d0150de13f2b, type: 2}
+  - {fileID: 2100000, guid: 5eeb2373fb4bd2d4c9e36a054c944810, type: 2}
+  - {fileID: 2100000, guid: c2605c37d584930458e4bdec79c547d6, type: 2}

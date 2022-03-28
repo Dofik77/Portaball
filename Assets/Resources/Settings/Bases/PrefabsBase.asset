@@ -26,8 +26,10 @@ MonoBehaviour:
   - Name: Green
     GameObject: {fileID: 1200433202038382720, guid: 17744704439911a408ee42a0606aabe9, type: 3}
   - Name: Blue
-    GameObject: {fileID: 6956774315211223950, guid: d1e8ed0e297ce524a8f60da2d51aff53, type: 3}
+    GameObject: {fileID: 5001003090399505857, guid: 501123cc61e913c45827e7039b32e040, type: 3}
   - Name: SphereEffect
-    GameObject: {fileID: 3876697894967292103, guid: e639990da5653be4db5a61bdc75c265a, type: 3}
+    GameObject: {fileID: 1782769943665936, guid: b7fa0f127c288494d9360e7ad65ecc17, type: 3}
   - Name: ConfettiParticle
     GameObject: {fileID: 6039046686340658965, guid: 4ca6b2c4a4233d0499039e8452157323, type: 3}
+  - Name: Purple
+    GameObject: {fileID: 5001003090399505857, guid: 56b78579f3bbbdb44a1169a5b4755933, type: 3}
