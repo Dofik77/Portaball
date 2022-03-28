@@ -5,8 +5,10 @@ using ECS.Game.Components;
 using ECS.Game.Components.Events;
 using ECS.Game.Components.Flags;
 using ECS.Game.Components.TheDeeperComponent;
+using ECS.Game.Systems.GameCycle;
 using ECS.Utils.Extensions;
 using ECS.Utils.Impls;
+using ECS.Views.GameCycle;
 using ECS.Views.Impls;
 using Game.Utils.MonoBehUtils;
 using Leopotam.Ecs;
@@ -38,6 +40,7 @@ namespace ECS.Game.Systems
             CreatePipes();
             CreateTimer();
             CreateWall();
+            CreateDistanceTriggers();
         }
 
         private void CreatePotal()
@@ -52,6 +55,7 @@ namespace ECS.Game.Systems
                 entity.Get<UIdComponent>().Value = UidGenerator.Next();
                 entity.Get<LinkComponent>().View = view;
                 view.Link(entity);
+                view.Holders.SetActive(true);
                 //find all set by gamedis portal
             }
         }
@@ -95,6 +99,20 @@ namespace ECS.Game.Systems
             //maybe relacate in Extension and just find camera on scee and get some
             //component
         }
+
+        public void CreateDistanceTriggers()
+        {
+            var views = UnityEngine.Object.FindObjectsOfType<DistanceTriggerView>(true);
+            foreach (var view in views)
+            {
+                var entity = _world.NewEntity();
+                entity.Get<UIdComponent>().Value = UidGenerator.Next();
+                entity.Get<DistanceTriggerComponent>();
+                entity.Get<LinkComponent>().View = view;
+                view.Link(entity);
+            }
+        }
+
 
         private bool LoadGame()
         {

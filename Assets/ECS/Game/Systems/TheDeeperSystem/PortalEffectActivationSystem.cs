@@ -37,8 +37,8 @@ namespace ECS.Game.Systems
 
                     if (_portalColorWithEffectsComponent == _portalColor && id != _portalEntity.Get<UIdComponent>().Value)
                     {
-                        _portalWithEffectsComponentView._portalEffect.SetActive(true);
-                        _portalView._portalEffect.SetActive(true);
+                        _portalWithEffectsComponentView.PortalEffect.SetActive(true);
+                        _portalView.PortalEffect.SetActive(true);
                     }
                 }
             }

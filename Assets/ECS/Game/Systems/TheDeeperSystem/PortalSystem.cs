@@ -86,17 +86,21 @@ namespace ECS.Game.Systems
 
                     var sphereTransform = sphereView.Rigidbody;
                     var exitPortalTransform = exitPortalView.transform;
-                    var exitPortalPoint = exitPortalView._pointToLocate.transform;
+                    var exitPortalPoint = exitPortalView.PointToLocate.transform;
                     
                     //In Player System ( Maybe another ) 
                     
+                    _world.CreateParticle(enterPortalTransform.position, new Quaternion(),"SphereEffect");
+                    
                     sphereTransform.position =
                         exitPortalPoint.position; //Poscomp
+                    
+                    _world.CreateParticle(exitPortalTransform.position, new Quaternion(),"SphereEffect");
 
                     sphereView.Rigidbody.velocity =
                          newSphereVelocity;
 
-                     _world.CreateParticle(sphereTransform.position, new Quaternion(),"SphereEffect");
+                   
                     
                 }
             }

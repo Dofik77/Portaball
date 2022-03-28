@@ -50,7 +50,7 @@ namespace ECS.Installers
             Container.BindInterfacesAndSelfTo<PortalEffectActivationSystem>().AsSingle();
             Container.BindInterfacesAndSelfTo<ParticleControllSystem>().AsSingle();
             Container.BindInterfacesAndSelfTo<PositionRotationTranslateSystem>().AsSingle();
-            
+            Container.BindInterfacesAndSelfTo<TriggersDistanceSystem>().AsSingle();
             
             //tech system
             Container.BindInterfacesAndSelfTo<GamePauseSystem>().AsSingle();

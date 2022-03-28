@@ -110,12 +110,12 @@ Rigidbody:
   m_GameObject: {fileID: 8170496155426976289}
   serializedVersion: 2
   m_Mass: 1
-  m_Drag: 0.5
-  m_AngularDrag: 0.05
+  m_Drag: 0.22
+  m_AngularDrag: 0.1
   m_UseGravity: 1
   m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 48
+  m_Interpolate: 1
+  m_Constraints: 8
   m_CollisionDetection: 0
 --- !u!135 &8854300687955023889
 SphereCollider:
