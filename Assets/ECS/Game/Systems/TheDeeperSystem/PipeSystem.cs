@@ -31,8 +31,11 @@ namespace ECS.Game.Systems
                 {
                     var sphereView = _sphere.Get2(i).View as SpherePlayerView;
                     sphereView.gameObject.SetActive(false);
+                    
+                    Quaternion confettiRotation = pipeView.transform.rotation;
 
-                    _world.CreateParticle(pipeView.ParticleActivationPoint.position, Quaternion.Euler(-90f,0f,0f),
+                    _world.CreateParticle(pipeView.ParticleActivationPoint.position, 
+                        confettiRotation,   
                         "ConfettiParticle");
                     
                     _world.SetStage(EGameStage.Complete);
