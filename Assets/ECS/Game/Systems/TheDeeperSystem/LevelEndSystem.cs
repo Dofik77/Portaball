@@ -69,7 +69,7 @@ namespace ECS.Game.Systems.GameCycle
             }
             else
                 data.Level++;
-            
+
             _commonPlayerData.Save(data);
 
             foreach (var camera in _cameraF)

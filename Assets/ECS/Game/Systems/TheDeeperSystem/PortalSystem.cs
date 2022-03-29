@@ -74,7 +74,8 @@ namespace ECS.Game.Systems
                     // разворот вектора - жесть 
                     //TODO goodcase
                     
-                    var enterPortalAngle = exitPortalView.transform.localEulerAngles + new Vector3(0,0,180);
+                    var enterPortalAngle = exitPortalView.transform.localEulerAngles + 
+                                           new Vector3(0,0,Vector2.SignedAngle(sphereVelocity, Vector2.up));
                     
                     var newSphereVelocity = new Vector3();
                     
@@ -99,9 +100,6 @@ namespace ECS.Game.Systems
 
                     sphereView.Rigidbody.velocity =
                          newSphereVelocity;
-
-                   
-                    
                 }
             }
         }
