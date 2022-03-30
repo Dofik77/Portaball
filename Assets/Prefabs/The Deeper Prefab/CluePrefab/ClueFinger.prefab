@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 394922328752894964}
   - component: {fileID: 394922328752894967}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Trail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -201,7 +201,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6764414024358582823}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: ClueFinger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -234,7 +234,7 @@ GameObject:
   - component: {fileID: 7302670378854490704}
   - component: {fileID: 7302670378854490705}
   - component: {fileID: 7302670378854490710}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Finger
   m_TagString: Untagged
   m_Icon: {fileID: 0}

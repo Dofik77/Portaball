@@ -22,8 +22,8 @@ namespace Game.Ui.SplashScreen.Impls
         
         public void Initialize()
         {
-            _sceneLoadingManager.LoadScene(_commonPlayerData.GetData().Level);   
-            // _sceneLoadingManager.LoadScene(EScene.Game15);
+            // _sceneLoadingManager.LoadScene(_commonPlayerData.GetData().Level);   
+            _sceneLoadingManager.LoadScene(EScene.Game10);
         }
     }
 }
