@@ -39,6 +39,7 @@ namespace ECS.Installers
             Container.BindInterfacesAndSelfTo<RotateSystem>().AsSingle();
             
             //game process system
+            Container.BindInterfacesAndSelfTo<CameraResizeSystem>().AsSingle();
             Container.BindInterfacesAndSelfTo<CameraLocateSystem>().AsSingle();
             Container.BindInterfacesAndSelfTo<PlayerSystem>().AsSingle();
             Container.BindInterfacesAndSelfTo<PipeSystem>().AsSingle();
@@ -51,7 +52,8 @@ namespace ECS.Installers
             Container.BindInterfacesAndSelfTo<ParticleControllSystem>().AsSingle();
             Container.BindInterfacesAndSelfTo<PositionRotationTranslateSystem>().AsSingle();
             Container.BindInterfacesAndSelfTo<TriggersDistanceSystem>().AsSingle();
-            
+            Container.BindInterfacesAndSelfTo<ChangeModelPlayerSystem>().AsSingle();
+
             //tech system
             Container.BindInterfacesAndSelfTo<GamePauseSystem>().AsSingle();
             Container.BindInterfacesAndSelfTo<LevelEndSystem>().AsSingle();

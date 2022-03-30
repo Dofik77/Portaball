@@ -9,5 +9,9 @@ namespace ECS.Views.Impls
         [SerializeField] private Animator _animator;
         [SerializeField] public Rigidbody Rigidbody;
         [SerializeField] public ParticleSystem TeleportationEffect;
+        [SerializeField] private GameObject[] models;
+        
+        
+        
     }
 }
