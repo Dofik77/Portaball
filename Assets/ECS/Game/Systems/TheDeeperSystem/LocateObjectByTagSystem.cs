@@ -111,7 +111,7 @@ namespace ECS.Game.Systems
             _actualCamera = GetCameraFromFilter();
                 
             var ray = _actualCamera.ScreenPointToRay(inputPos);
-            var hasHit = Physics.Raycast(ray, out raycastHit,100f);
+            var hasHit = Physics.Raycast(ray, out raycastHit, 100f, LayerMask.GetMask("Pipe","Wall"));
             
             locatePoint = raycastHit.point;
             

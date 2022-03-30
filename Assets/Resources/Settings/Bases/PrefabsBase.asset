@@ -18,7 +18,7 @@ MonoBehaviour:
   - Name: Player
     GameObject: {fileID: 959035790913744268, guid: 1f557a70aec48a241b2d5144cb9d8e36, type: 3}
   - Name: Character
-    GameObject: {fileID: 8170496155426976289, guid: e40f3c0f89422234cbb50c2e462b0861, type: 3}
+    GameObject: {fileID: 8170496155426976289, guid: 3094fe17ec352f24bb20191ced1dca05, type: 3}
   - Name: Portal-Default
     GameObject: {fileID: 2734896531528817294, guid: 8c01a5ad06c5f61429b621b5745bc326, type: 3}
   - Name: Red
