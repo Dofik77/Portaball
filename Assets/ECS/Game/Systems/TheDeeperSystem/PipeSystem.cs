@@ -39,6 +39,7 @@ namespace ECS.Game.Systems
                         "ConfettiParticle");
                     
                     _world.SetStage(EGameStage.Complete);
+                    
                 }
             }
         }

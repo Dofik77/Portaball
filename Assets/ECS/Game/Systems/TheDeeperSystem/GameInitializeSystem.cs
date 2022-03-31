@@ -14,6 +14,7 @@ using Game.Utils.MonoBehUtils;
 using Leopotam.Ecs;
 using Runtime.DataBase.General.CommonParamsBase;
 using Runtime.DataBase.General.GameCFG;
+using Runtime.Services.AnalyticsService;
 using Runtime.Services.CommonPlayerData;
 using Runtime.Services.CommonPlayerData.Data;
 using Runtime.Services.GameStateService;
@@ -30,11 +31,13 @@ namespace ECS.Game.Systems
         [Inject] private readonly IGameStateService<GameState> _generalState;
         [Inject] private readonly GetPointFromScene _getPointFromScene;
         [Inject] private readonly ICommonPlayerDataService<CommonPlayerData> _playerData;
+        [Inject] private IAnalyticsService _analyticsService;
         
         private readonly EcsWorld _world;
         public void Init()
         {
             if (LoadGame()) return;
+            _analyticsService.SendRequest("level_started");
             CreateCamera();
             CreatePotal();
             CreatePipes();

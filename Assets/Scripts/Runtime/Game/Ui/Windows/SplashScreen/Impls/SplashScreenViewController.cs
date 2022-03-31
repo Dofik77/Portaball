@@ -11,7 +11,7 @@ namespace Game.Ui.SplashScreen.Impls
     public class SplashScreenViewController : UiController<SplashScreenView>, IInitializable
     {
         [Inject] private ICommonPlayerDataService<CommonPlayerData> _commonPlayerData;
-        
+
         private readonly ISceneLoadingManager _sceneLoadingManager;
         private IDisposable _disposable = Disposable.Empty;
 
@@ -22,7 +22,8 @@ namespace Game.Ui.SplashScreen.Impls
         
         public void Initialize()
         {
-            _sceneLoadingManager.LoadScene(_commonPlayerData.GetData().Level);   
+            _sceneLoadingManager.LoadScene(_commonPlayerData.GetData().Level);
+            // _analyticsService.SendRequest("game_launched");
             // _sceneLoadingManager.LoadScene(EScene.Game12);
         }
     }

@@ -29,7 +29,7 @@ namespace ECS.Game.Systems.GameCycle
         // [Inject] private readonly ScreenVariables _screenVariables;
         [Inject] private ICommonPlayerDataService<CommonPlayerData> _commonPlayerData;
         [Inject] private readonly SignalBus _signalBus;
-        // [Inject] private readonly IAnalyticsService _analyticsService;
+        [Inject] private IAnalyticsService _analyticsService;
 
         [Inject] private ISceneLoadingManager _sceneLoadingManager;
         // [Inject] private readonly IVibrationService _vibrationService;
@@ -61,6 +61,8 @@ namespace ECS.Game.Systems.GameCycle
         [SuppressMessage("ReSharper", "Unity.InefficientPropertyAccess")]
         private void HandleLevelComplete()
         {
+            _analyticsService.SendRequest("level_complete");
+            
             var data = _commonPlayerData.GetData();
 
             if (data.Level >= Enum.GetValues(typeof(EScene)).Cast<EScene>().Last())
@@ -86,6 +88,7 @@ namespace ECS.Game.Systems.GameCycle
 
         private void HandleLevelLose()
         {
+            _analyticsService.SendRequest("level_lose");
             foreach (var camera in _cameraF)
             {
                 var cameraView = (CameraView) _cameraF.Get2(camera).View;

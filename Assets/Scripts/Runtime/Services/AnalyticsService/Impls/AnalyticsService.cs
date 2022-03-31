@@ -1,4 +1,4 @@
-﻿// using GameAnalyticsSDK;
+﻿using GameAnalyticsSDK;
 
 namespace Runtime.Services.AnalyticsService.Impls
 {
@@ -7,7 +7,7 @@ namespace Runtime.Services.AnalyticsService.Impls
         public void SendRequest(string message)
         {
             Amplitude.Instance.logEvent(message);
-            // GameAnalytics.NewProgressionEvent(GAProgressionStatus.Complete, message);
+            GameAnalytics.NewProgressionEvent(GAProgressionStatus.Complete, message);
         }
     }
 }
