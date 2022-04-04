@@ -1,6 +1,8 @@
-﻿namespace ECS.Game.Components.TheDeeperComponent
+﻿using Leopotam.Ecs;
+
+namespace ECS.Game.Components.TheDeeperComponent
 {
-    public struct EffectActivationComponent
+    public struct EffectActivationComponent : IEcsIgnoreInFilter
     {
         
     }

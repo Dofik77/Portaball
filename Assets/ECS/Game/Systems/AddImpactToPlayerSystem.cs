@@ -35,6 +35,8 @@ namespace ECS.Game.Systems
             var playerLink = (CharacterView) _player.Get3(0).View;
             // playerLink.SetStage(playerImpact.ComparePlayerStage());
             entity.Destroy();
+            
+            
         }
     }
 }

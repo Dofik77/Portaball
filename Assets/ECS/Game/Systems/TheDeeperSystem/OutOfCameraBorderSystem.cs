@@ -58,7 +58,6 @@ namespace ECS.Game.Systems.TheDeeperSystem
             return onScreen;
         }
         
-        
         private Camera GetCameraFromFilter()
         {
             Camera actualCamera = null;
